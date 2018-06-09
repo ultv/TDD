@@ -28,13 +28,14 @@ namespace TDD
         {
             OpenBrowser("http://avito.ru");
             SelectCategory("Кошки");
+            FindMaxFromCatalog();
         }
 
         public void OpenBrowser(string url)
         {
             browser = new OpenQA.Selenium.Chrome.ChromeDriver();
             browser.Manage().Window.Maximize();
-            browser.Navigate().GoToUrl(url);
+            browser.Navigate().GoToUrl(url);           
         }
 
         public void SelectCategory(string category)
@@ -47,10 +48,33 @@ namespace TDD
             searchButton.Click();
         }
 
-        public void SelectFromCatalog()
+        public void FindMaxFromCatalog()
         {
+                        
+            List<IWebElement> breed = browser.FindElements(By.ClassName("js-catalog-counts__link")).ToList();
+            List<IWebElement> num = browser.FindElements(By.ClassName("catalog-counts__number")).ToList();           
+            
+            int max = 0;
+            int maxIndex = 0;
+            
+            for(int i = 0; i < num.Count; i++)
+            {
+                int compare = Int32.Parse(num[i].Text);
+                if ((compare > max) && (breed[i].Text != "Другая"))
+                {
+                    max = compare;
+                    maxIndex = i;
+                }
+            }
 
-            //IList<IWebElement> catalog = 
+            // MessageBox.Show(breed[maxIndex].Text + " - " + num[maxIndex].Text);
+
+            breed[maxIndex].Click();
+
+            IWebElement firstLink = browser.FindElement(By.ClassName("item-description-title-link"));
+            firstLink.Click();
+
+
         }
 
         private void FormAvitoCat_FormClosing(object sender, FormClosingEventArgs e)
