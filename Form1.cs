@@ -29,6 +29,7 @@ namespace TDD
             OpenBrowser("http://avito.ru");
             SelectCategory("Кошки");
             FindMaxFromCatalog();
+            GetInfo();
         }
 
         public void OpenBrowser(string url)
@@ -74,12 +75,42 @@ namespace TDD
             IWebElement firstLink = browser.FindElement(By.ClassName("item-description-title-link"));
             firstLink.Click();
 
-
         }
+
+        public void GetInfo()
+        {
+            IWebElement name = browser.FindElement(By.ClassName("title-info-title-text"));
+            textBoxInfo.AppendText(name.Text + "\n");
+
+            IWebElement date = browser.FindElement(By.ClassName("title-info-metadata-item"));
+            textBoxInfo.AppendText(date.Text + "\n");
+
+            IWebElement breed = browser.FindElement(By.ClassName("item-params"));
+            textBoxInfo.AppendText(breed.Text + "\n");
+
+
+            IWebElement adress = browser.FindElement(By.ClassName("item-map-label"));
+            textBoxInfo.AppendText(adress.Text + "\n");            
+            IWebElement adress2 = browser.FindElement(By.ClassName("item-map-address"));
+            textBoxInfo.AppendText(adress2.Text + "\n");
+
+            IWebElement description = browser.FindElement(By.ClassName("item-description-text"));
+            textBoxInfo.AppendText(description.Text + "\n");
+
+            IWebElement person = browser.FindElement(By.ClassName("seller-info-col"));
+            textBoxInfo.AppendText(person.Text + "\n");
+
+            //IWebElement phoneButton = browser.FindElement(By.ClassName("item-phone-button"));
+            //phoneButton.Click();
+        }
+
 
         private void FormAvitoCat_FormClosing(object sender, FormClosingEventArgs e)
         {
-            browser.Quit();
+            if(browser != null)
+            {
+                browser.Quit();
+            }            
         }
     }
 }

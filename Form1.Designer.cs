@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonFindCat = new System.Windows.Forms.Button();
+            this.textBoxInfo = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonFindCat
@@ -41,22 +42,33 @@
             this.buttonFindCat.UseVisualStyleBackColor = true;
             this.buttonFindCat.Click += new System.EventHandler(this.buttonFindCat_Click);
             // 
+            // textBoxInfo
+            // 
+            this.textBoxInfo.Location = new System.Drawing.Point(317, 46);
+            this.textBoxInfo.Multiline = true;
+            this.textBoxInfo.Name = "textBoxInfo";
+            this.textBoxInfo.Size = new System.Drawing.Size(395, 305);
+            this.textBoxInfo.TabIndex = 1;
+            // 
             // FormAvitoCat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBoxInfo);
             this.Controls.Add(this.buttonFindCat);
             this.Name = "FormAvitoCat";
             this.Text = "AvitoCat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAvitoCat_FormClosing);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button buttonFindCat;
+        private System.Windows.Forms.TextBox textBoxInfo;
     }
 }
 
