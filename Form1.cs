@@ -9,15 +9,25 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Net;
 
 namespace TDD
 {
     public partial class FormAvitoCat : Form
     {
         IWebDriver browser;
-        IWebElement selectCategory; // ClassName("js-search-form-category ")
-        IWebElement searchButton; // ClassName("search button button-origin")
-        IWebElement catalogBreed; // ClassName("catalog-counts__row clearfix");
+                        
+        By elementCategory = By.ClassName("js-search-form-category ");
+        By searchButton = By.ClassName("button-origin");
+        By linkBreed = By.ClassName("js-catalog-counts__link");
+        By elementCount = By.ClassName("catalog-counts__number");
+        By linkFirst = By.ClassName("item-description-title-link");
+        By elementName = By.ClassName("title-info-title-text");
+        By elementDate = By.ClassName("title-info-metadata-item");
+        By elementBreed = By.ClassName("item-params");
+
+        By elementDescription = By.ClassName("item-description-text");
+        By elementPerson = By.ClassName("seller-info-col");
 
         public FormAvitoCat()
         {
@@ -36,24 +46,24 @@ namespace TDD
         {
             browser = new OpenQA.Selenium.Chrome.ChromeDriver();
             browser.Manage().Window.Maximize();
-            browser.Navigate().GoToUrl(url);           
+            browser.Navigate().GoToUrl(url);            
         }
 
         public void SelectCategory(string category)
         {            
-            selectCategory = browser.FindElement(By.ClassName("js-search-form-category "));           
-            SelectElement select = new SelectElement(selectCategory);
+            var element = browser.FindElement(elementCategory);           
+            SelectElement select = new SelectElement(element);
             IList<IWebElement> options = select.Options;
             select.SelectByText(category);
-            searchButton = browser.FindElement(By.ClassName("button-origin"));
-            searchButton.Click();
+            var button = browser.FindElement(searchButton);
+            button.Click();
         }
 
         public void FindMaxFromCatalog()
         {
                         
-            List<IWebElement> breed = browser.FindElements(By.ClassName("js-catalog-counts__link")).ToList();
-            List<IWebElement> num = browser.FindElements(By.ClassName("catalog-counts__number")).ToList();           
+            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
+            List<IWebElement> num = browser.FindElements(elementCount).ToList();           
             
             int max = 0;
             int maxIndex = 0;
@@ -72,20 +82,20 @@ namespace TDD
 
             breed[maxIndex].Click();
 
-            IWebElement firstLink = browser.FindElement(By.ClassName("item-description-title-link"));
-            firstLink.Click();
+            var link = browser.FindElement(linkFirst);
+            link.Click();
 
         }
 
         public void GetInfo()
         {
-            IWebElement name = browser.FindElement(By.ClassName("title-info-title-text"));
+            var name = browser.FindElement(elementName);
             textBoxInfo.AppendText(name.Text + "\n");
 
-            IWebElement date = browser.FindElement(By.ClassName("title-info-metadata-item"));
+            var date = browser.FindElement(elementDate);
             textBoxInfo.AppendText(date.Text + "\n");
 
-            IWebElement breed = browser.FindElement(By.ClassName("item-params"));
+            var breed = browser.FindElement(elementBreed);
             textBoxInfo.AppendText(breed.Text + "\n");
 
 
@@ -94,14 +104,46 @@ namespace TDD
             IWebElement adress2 = browser.FindElement(By.ClassName("item-map-address"));
             textBoxInfo.AppendText(adress2.Text + "\n");
 
-            IWebElement description = browser.FindElement(By.ClassName("item-description-text"));
+            var description = browser.FindElement(elementDescription);
             textBoxInfo.AppendText(description.Text + "\n");
 
-            IWebElement person = browser.FindElement(By.ClassName("seller-info-col"));
+            var person = browser.FindElement(elementPerson);
             textBoxInfo.AppendText(person.Text + "\n");
 
-            //IWebElement phoneButton = browser.FindElement(By.ClassName("item-phone-button"));
-            //phoneButton.Click();
+            string urlImageCat = browser.FindElement(By.ClassName("gallery-img-wrapper")).FindElement(By.TagName("img")).GetAttribute("src");
+            pictureBoxCat.ImageLocation = urlImageCat;
+
+            this.BringToFront();
+            this.Activate();
+            browser.Manage().Window.Minimize();
+
+            /*
+            IWebElement phoneButton = browser.FindElement(By.ClassName("item-phone-button-sub-text"));
+            phoneButton.Click();
+            */
+
+            /*
+            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            string urlImagePhone = browser.FindElement(By.ClassName("item-phone-big-number")).FindElement(By.TagName("img")).GetAttribute("src");
+            textBoxInfo.AppendText(urlImagePhone + "\n");
+            WebClient client = new WebClient();
+            Uri uri = new Uri(urlImagePhone);
+            client.DownloadFile(uri, "imagePhone.jpg");
+            pictureBoxPhone.Image = Image.FromFile("imagePhone.jpg");
+            */
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -111,6 +153,11 @@ namespace TDD
             {
                 browser.Quit();
             }            
+        }
+
+        private void FormAvitoCat_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
