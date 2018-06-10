@@ -59,6 +59,7 @@
             this.pictureBoxPhone.Location = new System.Drawing.Point(406, 296);
             this.pictureBoxPhone.Name = "pictureBoxPhone";
             this.pictureBoxPhone.Size = new System.Drawing.Size(354, 55);
+            this.pictureBoxPhone.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPhone.TabIndex = 2;
             this.pictureBoxPhone.TabStop = false;
             // 

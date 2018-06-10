@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Net;
+using System.Drawing.Imaging;
+using System.IO;
+
 
 namespace TDD
 {
@@ -113,14 +116,18 @@ namespace TDD
             string urlImageCat = browser.FindElement(By.ClassName("gallery-img-wrapper")).FindElement(By.TagName("img")).GetAttribute("src");
             pictureBoxCat.ImageLocation = urlImageCat;
 
-            this.BringToFront();
+
+            IWebElement phoneButton = browser.FindElement(By.ClassName("item-phone-button-sub-text"));
+            phoneButton.Click();
+            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
+            pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);
+
             this.Activate();
             browser.Manage().Window.Minimize();
 
-            /*
-            IWebElement phoneButton = browser.FindElement(By.ClassName("item-phone-button-sub-text"));
-            phoneButton.Click();
-            */
+            
+            
 
             /*
             browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -132,8 +139,7 @@ namespace TDD
             pictureBoxPhone.Image = Image.FromFile("imagePhone.jpg");
             */
 
-
-
+        
 
 
 
@@ -145,6 +151,24 @@ namespace TDD
 
 
         }
+
+        public Bitmap GetScreenshot(IWebDriver br, string location)
+        {
+            ITakesScreenshot screenshotDriver = br as ITakesScreenshot;
+            Screenshot screnshot = screenshotDriver.GetScreenshot();
+            screnshot.SaveAsFile(location);
+            Bitmap bmp = new Bitmap(location);
+
+            return bmp;
+        }
+
+        public Bitmap CutPhoneFromScreenshot(Bitmap bmpIn)
+        {
+
+            Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 330, 340, 60), bmpIn.PixelFormat);
+            return bmpOut;
+        }
+
 
 
         private void FormAvitoCat_FormClosing(object sender, FormClosingEventArgs e)
