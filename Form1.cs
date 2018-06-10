@@ -28,30 +28,90 @@ namespace TDD
         By elementName = By.ClassName("title-info-title-text");
         By elementDate = By.ClassName("title-info-metadata-item");
         By elementBreed = By.ClassName("item-params");
-
+        By elementLocation = By.ClassName("item-map-location");
         By elementDescription = By.ClassName("item-description-text");
-        By elementPerson = By.ClassName("seller-info-col");
+        By elementContact = By.ClassName("seller-info-col");
+        By imageCat = By.ClassName("gallery-img-wrapper");
+        By imageTag = By.TagName("img");
+        By phoneButton = By.ClassName("item-phone-button-sub-text");
+        By phoneImage = By.ClassName("item-phone-big-number");
 
         public FormAvitoCat()
         {
             InitializeComponent();
+            InitForm();
         }
 
+        /// <summary>
+        /// Установка элементов формы в исходное состояние.
+        /// </summary>
+        public void InitForm()
+        {
+            labelName.Text = "Имя";                        
+            labelNumber.Text = "Номер объявления:";                       
+            labelBreed.Text = "Порода:";            
+            
+            textBoxInfo.Clear();                        
+            textBoxContact.Clear();
+
+            textBoxInfo.Enabled = false;
+            textBoxContact.Enabled = false;
+            labelName.Enabled = false;
+            labelNumber.Enabled = false;
+            labelContact.Enabled = false;
+            labelBreed.Enabled = false;
+            labelDescription.Enabled = false;            
+        }
+
+        /// <summary>
+        /// Активация доступности элементов формы.
+        /// </summary>
+        public void SetEnabled()
+        {
+            textBoxInfo.Enabled = true;
+            textBoxContact.Enabled = true;
+            labelName.Enabled = true;
+            labelNumber.Enabled = true;
+            labelContact.Enabled = true;
+            labelBreed.Enabled = true;
+            labelDescription.Enabled = true;
+        }
+
+        /// <summary>
+        /// Обработка нажатия кнопки поиска.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonFindCat_Click(object sender, EventArgs e)
         {
+            InitForm();
             OpenBrowser("http://avito.ru");
             SelectCategory("Кошки");
             FindMaxFromCatalog();
+            SetEnabled();
             GetInfo();
         }
 
+        /// <summary>
+        /// Открытие браузера.
+        /// </summary>
+        /// <param name="url">Адрес открываемой страницы</param>
         public void OpenBrowser(string url)
         {
-            browser = new OpenQA.Selenium.Chrome.ChromeDriver();
+            if(browser == null)
+            {
+                browser = new OpenQA.Selenium.Chrome.ChromeDriver();
+                browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
+            }
+            
             browser.Manage().Window.Maximize();
             browser.Navigate().GoToUrl(url);            
         }
 
+        /// <summary>
+        /// Выбор категории из значений выпадающего списка.
+        /// </summary>
+        /// <param name="category">Название категории</param>
         public void SelectCategory(string category)
         {            
             var element = browser.FindElement(elementCategory);           
@@ -62,26 +122,27 @@ namespace TDD
             button.Click();
         }
 
+        /// <summary>
+        /// Поиск ссылки на породу с максимальным количеством предложений.
+        /// </summary>
         public void FindMaxFromCatalog()
         {
                         
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
-            List<IWebElement> num = browser.FindElements(elementCount).ToList();           
+            List<IWebElement> count = browser.FindElements(elementCount).ToList();           
             
             int max = 0;
             int maxIndex = 0;
             
-            for(int i = 0; i < num.Count; i++)
+            for(int i = 0; i < count.Count; i++)
             {
-                int compare = Int32.Parse(num[i].Text);
+                int compare = Int32.Parse(count[i].Text);
                 if ((compare > max) && (breed[i].Text != "Другая"))
                 {
                     max = compare;
                     maxIndex = i;
                 }
-            }
-
-            // MessageBox.Show(breed[maxIndex].Text + " - " + num[maxIndex].Text);
+            }            
 
             breed[maxIndex].Click();
 
@@ -90,68 +151,73 @@ namespace TDD
 
         }
 
+        /// <summary>
+        /// Получение информации из объявления и заполнение соответствующих элементов формы.
+        /// </summary>
         public void GetInfo()
         {
             var name = browser.FindElement(elementName);
-            textBoxInfo.AppendText(name.Text + "\n");
+            labelName.Text = name.Text;            
 
             var date = browser.FindElement(elementDate);
-            textBoxInfo.AppendText(date.Text + "\n");
+            labelNumber.Text = date.Text;            
 
             var breed = browser.FindElement(elementBreed);
-            textBoxInfo.AppendText(breed.Text + "\n");
-
-
-            IWebElement adress = browser.FindElement(By.ClassName("item-map-label"));
-            textBoxInfo.AppendText(adress.Text + "\n");            
-            IWebElement adress2 = browser.FindElement(By.ClassName("item-map-address"));
-            textBoxInfo.AppendText(adress2.Text + "\n");
+            labelBreed.Text = breed.Text;            
 
             var description = browser.FindElement(elementDescription);
-            textBoxInfo.AppendText(description.Text + "\n");
+            textBoxInfo.AppendText(description.Text + "\n");            
 
-            var person = browser.FindElement(elementPerson);
-            textBoxInfo.AppendText(person.Text + "\n");
+            var contact = browser.FindElement(elementContact);
+            textBoxContact.AppendText(contact.Text + "\n");
+           
+            var location = browser.FindElement(elementLocation);
+            string adress = location.Text;
+            string substring = "Посмотреть карту";
 
-            string urlImageCat = browser.FindElement(By.ClassName("gallery-img-wrapper")).FindElement(By.TagName("img")).GetAttribute("src");
+            if (adress.Contains(substring))
+            {                
+                int index = adress.IndexOf("Посмотреть карту");
+                adress = adress.Remove(index, substring.Length);
+            }
+
+            textBoxContact.AppendText(adress + "\n");
+
+            string urlImageCat = browser.FindElement(imageCat).FindElement(imageTag).GetAttribute("src");
             pictureBoxCat.ImageLocation = urlImageCat;
 
-
-            IWebElement phoneButton = browser.FindElement(By.ClassName("item-phone-button-sub-text"));
-            phoneButton.Click();
-            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            var phone = browser.FindElement(phoneButton);
+            phone.Click();            
+            System.Threading.Thread.Sleep(1000);
             Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
             pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);
 
             this.Activate();
             browser.Manage().Window.Minimize();
 
-            
-            
+        }
 
-            /*
-            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            string urlImagePhone = browser.FindElement(By.ClassName("item-phone-big-number")).FindElement(By.TagName("img")).GetAttribute("src");
+        /// <summary>
+        /// Получение адреса, загрузка и сохранение изображения.
+        /// !!! Не работает.
+        /// </summary>
+        public void GetPhotoPhone()
+        {            
+            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);            
+            string urlImagePhone = browser.FindElement(phoneImage).FindElement(imageTag).GetAttribute("src");
             textBoxInfo.AppendText(urlImagePhone + "\n");
             WebClient client = new WebClient();
             Uri uri = new Uri(urlImagePhone);
             client.DownloadFile(uri, "imagePhone.jpg");
-            pictureBoxPhone.Image = Image.FromFile("imagePhone.jpg");
-            */
-
-        
-
-
-
-
-
-
-
-
-
-
+            pictureBoxPhone.Image = Image.FromFile("imagePhone.jpg");            
         }
 
+        /// <summary>
+        /// Создание и сохранение снимка экрана.
+        /// </summary>
+        /// <param name="br">Браузер</param>
+        /// <param name="location">Путь для сохранения изображения</param>
+        /// <returns></returns>
         public Bitmap GetScreenshot(IWebDriver br, string location)
         {
             ITakesScreenshot screenshotDriver = br as ITakesScreenshot;
@@ -162,6 +228,11 @@ namespace TDD
             return bmp;
         }
 
+        /// <summary>
+        /// Извлечение области из снимка экрана.
+        /// </summary>
+        /// <param name="bmpIn">Исходное изображение</param>
+        /// <returns></returns>
         public Bitmap CutPhoneFromScreenshot(Bitmap bmpIn)
         {
 
@@ -169,8 +240,11 @@ namespace TDD
             return bmpOut;
         }
 
-
-
+        /// <summary>
+        /// Закрытие браузера при закрытии формы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormAvitoCat_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(browser != null)
