@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDD", "TDD.csproj", "{34F9385A-59BE-48D3-949B-D0EB2FAB0F5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormAvitoCatTest", "FormAvitoCatTest\FormAvitoCatTest.csproj", "{2CB01D43-FF85-460A-A4F9-07BA8A1F2303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{34F9385A-59BE-48D3-949B-D0EB2FAB0F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F9385A-59BE-48D3-949B-D0EB2FAB0F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34F9385A-59BE-48D3-949B-D0EB2FAB0F5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CB01D43-FF85-460A-A4F9-07BA8A1F2303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CB01D43-FF85-460A-A4F9-07BA8A1F2303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CB01D43-FF85-460A-A4F9-07BA8A1F2303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CB01D43-FF85-460A-A4F9-07BA8A1F2303}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -87,7 +87,17 @@ namespace TDD
             InitForm();
             OpenBrowser("http://avito.ru");
             SelectCategory("Кошки");
-            FindMaxFromCatalog();
+
+            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
+            List<IWebElement> count = browser.FindElements(elementCount).ToList();
+
+            Comparator find = new Comparator();
+
+            breed[find.FindMaxFromCatalog(breed, count)].Click();
+
+            var link = browser.FindElement(linkFirst);
+            link.Click();
+
             SetEnabled();
             GetInfo();
         }
@@ -125,11 +135,11 @@ namespace TDD
         /// <summary>
         /// Поиск ссылки на породу с максимальным количеством предложений.
         /// </summary>
-        public void FindMaxFromCatalog()
+        /// <param name="breed">Список элементов с названием породы</param>
+        /// <param name="count">Список элементов с количеством предложений</param>
+        /// <returns>Возвращает индекс элемента с максимальным количеством предложений</returns>        
+        public int FindMaxFromCatalog(List<IWebElement> breed, List<IWebElement> count)
         {
-                        
-            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
-            List<IWebElement> count = browser.FindElements(elementCount).ToList();           
             
             int max = 0;
             int maxIndex = 0;
@@ -142,13 +152,9 @@ namespace TDD
                     max = compare;
                     maxIndex = i;
                 }
-            }            
+            }
 
-            breed[maxIndex].Click();
-
-            var link = browser.FindElement(linkFirst);
-            link.Click();
-
+            return maxIndex;           
         }
 
         /// <summary>
@@ -199,7 +205,7 @@ namespace TDD
 
         /// <summary>
         /// Получение адреса, загрузка и сохранение изображения.
-        /// !!! Не работает.
+        /// !!! Не работает с длинным url .
         /// </summary>
         public void GetPhotoPhone()
         {            
@@ -217,7 +223,7 @@ namespace TDD
         /// </summary>
         /// <param name="br">Браузер</param>
         /// <param name="location">Путь для сохранения изображения</param>
-        /// <returns></returns>
+        /// <returns>Возвращает сохраненное изображение</returns>
         public Bitmap GetScreenshot(IWebDriver br, string location)
         {
             ITakesScreenshot screenshotDriver = br as ITakesScreenshot;
@@ -232,10 +238,9 @@ namespace TDD
         /// Извлечение области из снимка экрана.
         /// </summary>
         /// <param name="bmpIn">Исходное изображение</param>
-        /// <returns></returns>
+        /// <returns>Возвращает обработанное изображение</returns>
         public Bitmap CutPhoneFromScreenshot(Bitmap bmpIn)
         {
-
             Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 330, 340, 60), bmpIn.PixelFormat);
             return bmpOut;
         }
