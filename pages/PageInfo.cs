@@ -59,6 +59,11 @@ namespace TDD.pages
         [FindsBy(How = How.ClassName, Using = "item-phone-button-sub-text")]
         public IWebElement BtnShowPhone { get; set; }
 
+        /// <summary>
+        /// Рекомендация покупателю.
+        /// </summary>
+        [FindsBy(How = How.ClassName, Using = "item-phone-call-note")]
+        public IWebElement TxtCallNote { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "img")]
         public IWebElement ImgTag { get; set; }

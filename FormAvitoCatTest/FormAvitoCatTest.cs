@@ -10,33 +10,7 @@ using System.Linq;
 
 
 namespace FormAvitoCatTest
-{
-    
-    [SetUpFixture]
-    public class NUnitSetupFixture
-    {
-        public IWebDriver br;
-        public PageHome pHome = new PageHome();
-        public PageCatalogBreed pCatalogBreed = new PageCatalogBreed();
-        public PageBreed pBreed = new PageBreed();
-        public PageInfo pInfo = new PageInfo();
-        public By linkBreed = By.ClassName("js-catalog-counts__link");
-        public By elementCount = By.ClassName("catalog-counts__number");
-
-        [OneTimeSetUp]
-        public void RunBeforeAnyTests()
-        {
-            br = new OpenQA.Selenium.Chrome.ChromeDriver();
-            //br.Manage().Window.Maximize();
-            br.Navigate().GoToUrl("http://avito.ru/");
-        }
-
-        [OneTimeTearDown]
-        public void RunAfterAnyTests()
-        {
-            br.Quit();
-        }
-    }
+{   
 
     [TestFixture]
     public class FormAvitoCatTest : NUnitSetupFixture
@@ -44,47 +18,67 @@ namespace FormAvitoCatTest
         
         [Test]
         public void test1()//GoToAvito()
-        {     
-            Assert.IsTrue(br.Title == "Доска объявлений от частных лиц и компаний на Avito");     
-        }
+        {
+            browser = new OpenQA.Selenium.Chrome.ChromeDriver();
+            browser.Manage().Window.Maximize();
+            browser.Navigate().GoToUrl("http://avito.ru/");
 
+            Assert.IsTrue(browser.Title == "Доска объявлений от частных лиц и компаний на Avito");     
+        }
         
+
         [Test]
         public void test2()//GoToCats()
         {
-            PageFactory.InitElements(br, pHome);
-            pHome.InputSearch.SendKeys("Кошки" + Keys.Enter);
+            PageFactory.InitElements(browser, pageHome);
+            //pHome.InputSearch.SendKeys("Кошки" + Keys.Enter);
 
-            Assert.IsTrue(br.Title == "Купить кошек и котят из питомника и частные объявления о продаже животных в Ульяновске на Avito.");            
+            SelectElement select = new SelectElement(pageHome.SelectCategory);
+            IList<IWebElement> options = select.Options;
+            select.SelectByText("Кошки");
+            pageHome.BtnSearch.Click();
+
+            Assert.IsTrue(browser.Title == "Купить кошек и котят из питомника и частные объявления о продаже животных в Ульяновске на Avito.");
         }
-        
 
-        
+
         [Test]
         public void test3()//GoToBreed()
         {            
-            PageFactory.InitElements(br, pCatalogBreed);
-            List<IWebElement> breed = br.FindElements(linkBreed).ToList();
-            List<IWebElement> count = br.FindElements(elementCount).ToList();
+            PageFactory.InitElements(browser, pageCatalogBreed);
+            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
+            List<IWebElement> count = browser.FindElements(elementCount).ToList();
 
             Comparator find = new Comparator();
             int index = find.FindMaxFromCatalog(breed, count);
             string findBreedName = breed[index].Text;
             breed[index].Click();
 
-            Assert.IsTrue(br.Title == $"Кошки и котята породы {findBreedName} - купить из питомников и частные объявления о продаже животных в Ульяновске на Avito");
+            Assert.IsTrue(browser.Title == $"Кошки и котята породы {findBreedName} - купить из питомников и частные объявления о продаже животных в Ульяновске на Avito");
         }
+
 
         [Test]
         public void test4()//GoToCat()
         {
-            PageFactory.InitElements(br, pBreed);
-            pBreed.LinkFirst.Click();
+            PageFactory.InitElements(browser, pageBreed);
+            pageBreed.LinkFirst.Click();
 
-            PageFactory.InitElements(br, pInfo);
-            string name = pInfo.TxtName.Text;
+            PageFactory.InitElements(browser, pageInfo);
+            string name = pageInfo.TxtName.Text;
 
-            Assert.IsTrue(br.Title.Contains("Котик - купить, продать или отдать в Ульяновской области на Avito"));
+            Assert.IsTrue(browser.Title.Contains($"{name} - купить, продать или отдать в Ульяновской области на Avito"));
+        }
+
+        [Test]
+        public void test5()
+        {
+            pageInfo.BtnShowPhone.Click();          
+
+            WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
+            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(callNote));
+
+            Assert.IsTrue(pageInfo.TxtCallNote.Text == "Скажите продавцу, что нашли это объявление на Avito");
         }
         
 

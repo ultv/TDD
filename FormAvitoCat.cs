@@ -25,12 +25,13 @@ namespace TDD
     {
         IWebDriver browser;
         PageHome pageHome = new PageHome();
+        PageInfo pageInfo = new PageInfo();
         PageCatalogBreed pageCatalogBreed = new PageCatalogBreed();
         PageBreed pageBreed = new PageBreed();
-        PageInfo pageInfo = new PageInfo();
-                                
+                                        
         By linkBreed = By.ClassName("js-catalog-counts__link");
-        By elementCount = By.ClassName("catalog-counts__number");        
+        By elementCount = By.ClassName("catalog-counts__number");
+        By callNote = By.ClassName("item-phone-call-note");
         By imageTag = By.TagName("img");       
 
         public FormAvitoCat()
@@ -125,17 +126,13 @@ namespace TDD
         /// <param name="category">Название категории</param>
         public void SelectCategory(string category)
         {
-
-            /*
+            //pageHome.InputSearch.SendKeys(category + OpenQA.Selenium.Keys.Enter);            
+                        
             SelectElement select = new SelectElement(pageHome.SelectCategory);
             IList<IWebElement> options = select.Options;           
             select.SelectByText(category);                                    
-            pageHome.BtnSearch.Click();
-            */
-
-            pageHome.InputSearch.SendKeys("Кошки" + OpenQA.Selenium.Keys.Enter);
-            
-        }        
+            pageHome.BtnSearch.Click();            
+        }
 
         /// <summary>
         /// Получение информации из объявления и заполнение соответствующих элементов формы.
@@ -164,7 +161,10 @@ namespace TDD
             pictureBoxCat.ImageLocation = pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src");            
 
             pageInfo.BtnShowPhone.Click();
-            System.Threading.Thread.Sleep(1000);
+
+            WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
+            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(callNote));
+
             Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
             pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);            
 
@@ -192,7 +192,7 @@ namespace TDD
         /// <summary>
         /// Извлечение области из снимка экрана.
         /// !!! Проверялось с разрешением экрана 1680х900.
-        /// !!! FireFox позиция немного смещается вверх. 
+        /// !!! Позиция медленно смещается вверх. 
         /// </summary>
         /// <param name="bmpIn">Исходное изображение</param>
         /// <returns>Возвращает обработанное изображение</returns>
