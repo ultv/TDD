@@ -74,6 +74,7 @@
     <Compile Include="pages\PageBreed.cs" />
     <Compile Include="pages\PageCatalogBreed.cs" />
     <Compile Include="pages\PageHome.cs" />
+    <Compile Include="pages\PageInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAvitoCat.resx">

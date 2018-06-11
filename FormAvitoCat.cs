@@ -27,6 +27,7 @@ namespace TDD
         PageHome pageHome = new PageHome();
         PageCatalogBreed pageCatalogBreed = new PageCatalogBreed();
         PageBreed pageBreed = new PageBreed();
+        PageInfo pageInfo = new PageInfo();
                         
         //By elementCategory = By.ClassName("js-search-form-category ");
         //By searchButton = By.ClassName("button-origin");
@@ -109,6 +110,7 @@ namespace TDD
             pageBreed.LinkFirst.Click();
             
             SetEnabled();
+            PageFactory.InitElements(browser, pageInfo);
             GetInfo();
         }
 
@@ -172,23 +174,23 @@ namespace TDD
         /// </summary>
         public void GetInfo()
         {
-            var name = browser.FindElement(elementName);
-            labelName.Text = name.Text;            
+            
+            labelName.Text = pageInfo.TxtName.Text;            
 
-            var date = browser.FindElement(elementDate);
-            labelNumber.Text = date.Text;            
+            //var date = browser.FindElement(elementDate);
+            labelNumber.Text = pageInfo.TxtDate.Text;            
 
-            var breed = browser.FindElement(elementBreed);
-            labelBreed.Text = breed.Text;            
+            //var breed = browser.FindElement(elementBreed);
+            labelBreed.Text = pageInfo.TxtBreed.Text;            
 
-            var description = browser.FindElement(elementDescription);
-            textBoxInfo.AppendText(description.Text + "\n");            
+            //var description = browser.FindElement(elementDescription);
+            textBoxInfo.AppendText(pageInfo.TxtDescription.Text + "\n");            
 
-            var contact = browser.FindElement(elementContact);
-            textBoxContact.AppendText(contact.Text + "\n");
+            //var contact = browser.FindElement(elementContact);
+            textBoxContact.AppendText(pageInfo.TxtContact.Text + "\n");
            
-            var location = browser.FindElement(elementLocation);
-            string adress = location.Text;
+            //var location = browser.FindElement(elementLocation);
+            string adress = pageInfo.TxtLocation.Text;
             string substring = "Посмотреть карту";
 
             if (adress.Contains(substring))
@@ -198,10 +200,9 @@ namespace TDD
             }
 
             textBoxContact.AppendText(adress + "\n");
-
-            string urlImageCat = browser.FindElement(imageCat).FindElement(imageTag).GetAttribute("src");
-            pictureBoxCat.ImageLocation = urlImageCat;
-
+            
+            pictureBoxCat.ImageLocation = pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src");
+            
             var phone = browser.FindElement(phoneButton);
             phone.Click();            
             System.Threading.Thread.Sleep(1000);
