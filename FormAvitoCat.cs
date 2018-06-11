@@ -95,9 +95,8 @@ namespace TDD
 
             breed[find.FindMaxFromCatalog(breed, count)].Click();
 
-            var link = browser.FindElement(linkFirst);
-            link.Click();
-
+            browser.FindElement(linkFirst).Click();
+            
             SetEnabled();
             GetInfo();
         }
@@ -128,8 +127,7 @@ namespace TDD
             SelectElement select = new SelectElement(element);
             IList<IWebElement> options = select.Options;
             select.SelectByText(category);
-            var button = browser.FindElement(searchButton);
-            button.Click();
+            browser.FindElement(searchButton).Click();            
         }
 
         /// <summary>
