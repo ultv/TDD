@@ -24,13 +24,15 @@ namespace TDD
     public partial class FormAvitoCat : Form
     {
         IWebDriver browser;
-        PageHome pageHome = new PageHome();        
+        PageHome pageHome = new PageHome();
+        PageCatalogBreed pageCatalogBreed = new PageCatalogBreed();
+        PageBreed pageBreed = new PageBreed();
                         
         //By elementCategory = By.ClassName("js-search-form-category ");
         //By searchButton = By.ClassName("button-origin");
         By linkBreed = By.ClassName("js-catalog-counts__link");
         By elementCount = By.ClassName("catalog-counts__number");
-        By linkFirst = By.ClassName("item-description-title-link");
+        //By linkFirst = By.ClassName("item-description-title-link");
         By elementName = By.ClassName("title-info-title-text");
         By elementDate = By.ClassName("title-info-metadata-item");
         By elementBreed = By.ClassName("item-params");
@@ -94,6 +96,7 @@ namespace TDD
             OpenBrowser("http://avito.ru");
             PageFactory.InitElements(browser, pageHome);
             SelectCategory("Кошки");
+            PageFactory.InitElements(browser, pageCatalogBreed);
 
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
             List<IWebElement> count = browser.FindElements(elementCount).ToList();
@@ -102,7 +105,8 @@ namespace TDD
 
             breed[find.FindMaxFromCatalog(breed, count)].Click();
 
-            browser.FindElement(linkFirst).Click();
+            PageFactory.InitElements(browser, pageBreed);
+            pageBreed.LinkFirst.Click();
             
             SetEnabled();
             GetInfo();
