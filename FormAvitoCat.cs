@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Interactions;
 using System.Net;
 using System.Drawing.Imaging;
 using System.IO;
+using TDD.pages;
+
+
 
 
 namespace TDD
@@ -19,9 +24,10 @@ namespace TDD
     public partial class FormAvitoCat : Form
     {
         IWebDriver browser;
+        PageHome pageHome = new PageHome();        
                         
-        By elementCategory = By.ClassName("js-search-form-category ");
-        By searchButton = By.ClassName("button-origin");
+        //By elementCategory = By.ClassName("js-search-form-category ");
+        //By searchButton = By.ClassName("button-origin");
         By linkBreed = By.ClassName("js-catalog-counts__link");
         By elementCount = By.ClassName("catalog-counts__number");
         By linkFirst = By.ClassName("item-description-title-link");
@@ -86,6 +92,7 @@ namespace TDD
         {
             InitForm();
             OpenBrowser("http://avito.ru");
+            PageFactory.InitElements(browser, pageHome);
             SelectCategory("Кошки");
 
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
@@ -123,11 +130,12 @@ namespace TDD
         /// <param name="category">Название категории</param>
         public void SelectCategory(string category)
         {            
-            var element = browser.FindElement(elementCategory);           
-            SelectElement select = new SelectElement(element);
+            
+            SelectElement select = new SelectElement(pageHome.SelectCategory);
             IList<IWebElement> options = select.Options;
-            select.SelectByText(category);
-            browser.FindElement(searchButton).Click();            
+            select.SelectByText(category);                                    
+            pageHome.BtnSearch.Click();
+            
         }
 
         /// <summary>
@@ -234,6 +242,7 @@ namespace TDD
 
         /// <summary>
         /// Извлечение области из снимка экрана.
+        /// !!! Проверялось с разрешением экрана 1680х900.
         /// </summary>
         /// <param name="bmpIn">Исходное изображение</param>
         /// <returns>Возвращает обработанное изображение</returns>

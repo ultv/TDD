@@ -71,6 +71,7 @@
     <Compile Include="FormAvitoCat.Designer.cs">
       <DependentUpon>FormAvitoCat.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\PageHome.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAvitoCat.resx">

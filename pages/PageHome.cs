@@ -10,15 +10,18 @@ namespace TDD.pages
 {
     class PageHome
     {
-        //By elementCategory = By.ClassName("js-search-form-category ");
-        //By searchButton = By.ClassName("button-origin");
+        
+        /// <summary>
+        /// Выпадающий список - категория поиска.
+        /// </summary>
+        [FindsBy(How = How.ClassName, Using = "js-search-form-category")]
+        public IWebElement SelectCategory { get; set; }
 
-        //[FindsBy(How = How.CssSelector, Using = "input[title='Поиск']")]
-        //public IWebElement TxtSearchForm { get; set; }
-
-        [FindsBy(How = How.ClassName, Using = "js-search-form-category")];
+        /// <summary>
+        /// Кнопка "Найти" на панели параметров поиска.
+        /// </summary>
+        [FindsBy(How = How.ClassName, Using = "button-origin")]
         public IWebElement BtnSearch { get; set; }
-
 
     }
 }
