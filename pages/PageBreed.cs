@@ -8,7 +8,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TDD.pages
 {
-    class PageBreed
+    public class PageBreed
     {
         
         /// <summary>

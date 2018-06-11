@@ -8,7 +8,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TDD.pages
 {
-    class PageCatalogBreed
+    public class PageCatalogBreed
     {        
         /// <summary>
         /// Ссылка на объявления определенной породы.
