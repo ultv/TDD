@@ -10,16 +10,6 @@ namespace TDD.pages
 {
     class PageInfo
     {
-        /*
-        //By elementName = By.ClassName("title-info-title-text");
-        //By elementDate = By.ClassName("title-info-metadata-item");
-        //By elementBreed = By.ClassName("item-params");
-        //By elementLocation = By.ClassName("item-map-location");
-        //By elementDescription = By.ClassName("item-description-text");
-        //By elementContact = By.ClassName("seller-info-col");
-        By imageCat = By.ClassName("gallery-img-wrapper");
-        By imageTag = By.TagName("img");
-        */
 
         /// <summary>
         /// Заголовок выбранного объявления.
@@ -32,12 +22,12 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "title-info-metadata-item")]
         public IWebElement TxtDate { get; set; }
-
+        
         /// <summary>
         /// Название породы на странице выбраного объявления.
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "item-params")]
-        public IWebElement TxtBreed { get; set; }
+        public IWebElement TxtBreed { get; set; }        
 
         /// <summary>
         /// Район проживания продавца на странице выбранного объявления.
@@ -63,8 +53,14 @@ namespace TDD.pages
         [FindsBy(How = How.ClassName, Using = "gallery-img-wrapper")]       
         public IWebElement ImgMain { get; set; }
 
+        /// <summary>
+        /// Кнопка "Показать телефон" на странице выбранного объявления.
+        /// </summary>
+        [FindsBy(How = How.ClassName, Using = "item-phone-button-sub-text")]
+        public IWebElement BtnShowPhone { get; set; }
 
-        //[FindsBy(How = How.ClassName, Using = "img")]
-        //public IWebElement ImgTag { get; set; }
+
+        [FindsBy(How = How.ClassName, Using = "img")]
+        public IWebElement ImgTag { get; set; }
     }
 }

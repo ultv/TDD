@@ -1,47 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
-using TDD;
+using OpenQA.Selenium.Support.PageObjects;
+using TDD.pages;
 
 namespace FormAvitoCatTest
 {
     
-    [TestClass]
-    public class FormAvitoCatTest
+    [SetUpFixture]
+    public class NUnitSetupFixture
     {
-        IWebDriver browser = new OpenQA.Selenium.Chrome.ChromeDriver();
-              
-        [TestMethod]
-        public void GoToAvito()
-        {            
-            browser.Navigate().GoToUrl("http://avito.ru/");
-            NUnit.Framework.Assert.IsTrue(browser.Title == "Доска объявлений от частных лиц и компаний на Avito");
-        }
+        public IWebDriver br;
+        public PageHome pHome = new PageHome(); 
 
-        /*
-        public void FindMaxFromCatalog_15_and_120_and_53_1returned()
+        [OneTimeSetUp]
+        public void RunBeforeAnyTests()
         {
-            // Arrange
-            List<IWebElement> breed = new List<IWebElement>();
-            List<IWebElement> count = new List<IWebElement>();
-            Comparator find = new Comparator();
-            //IWebElement brd = ;
-            
-            breed.Add(brd);
-            int expected = 1;
-            
-
-            
-            // Act
-            int actual = find.FindMaxFromCatalog(breed, count);
-
-            //Assert
-            NUnit.Framework.Assert.AreEqual(expected, actual);
-
+            br = new OpenQA.Selenium.Chrome.ChromeDriver();
+            br.Navigate().GoToUrl("http://avito.ru/");
         }
-        */
+
+        [OneTimeTearDown]
+        public void RunAfterAnyTests()
+        {
+            br.Quit();
+        }
+    }
+
+    [TestFixture]
+    public class FormAvitoCatTest : NUnitSetupFixture
+    {     
+        
+        [Test]
+        public void GoToAvito()
+        {     
+            Assert.IsTrue(br.Title == "Доска объявлений от частных лиц и компаний на Avito");     
+        }
+        
+
+        [Test]
+        public void SelCategory()
+        {
+            
+            PageFactory.InitElements(br, pHome);
+            pHome.InputSearch.SendKeys("Кошки" + Keys.Enter);
+
+            Assert.IsTrue(br.Title == "Купить кошек и котят из питомника и частные объявления о продаже животных в Ульяновске на Avito.");
+            
+        }
+
+
     }
 }

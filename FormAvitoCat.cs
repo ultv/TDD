@@ -28,22 +28,10 @@ namespace TDD
         PageCatalogBreed pageCatalogBreed = new PageCatalogBreed();
         PageBreed pageBreed = new PageBreed();
         PageInfo pageInfo = new PageInfo();
-                        
-        //By elementCategory = By.ClassName("js-search-form-category ");
-        //By searchButton = By.ClassName("button-origin");
+                                
         By linkBreed = By.ClassName("js-catalog-counts__link");
-        By elementCount = By.ClassName("catalog-counts__number");
-        //By linkFirst = By.ClassName("item-description-title-link");
-        By elementName = By.ClassName("title-info-title-text");
-        By elementDate = By.ClassName("title-info-metadata-item");
-        By elementBreed = By.ClassName("item-params");
-        By elementLocation = By.ClassName("item-map-location");
-        By elementDescription = By.ClassName("item-description-text");
-        By elementContact = By.ClassName("seller-info-col");
-        By imageCat = By.ClassName("gallery-img-wrapper");
-        By imageTag = By.TagName("img");
-        By phoneButton = By.ClassName("item-phone-button-sub-text");
-        By phoneImage = By.ClassName("item-phone-big-number");
+        By elementCount = By.ClassName("catalog-counts__number");        
+        By imageTag = By.TagName("img");       
 
         public FormAvitoCat()
         {
@@ -95,15 +83,15 @@ namespace TDD
         {
             InitForm();
             OpenBrowser("http://avito.ru");
+
             PageFactory.InitElements(browser, pageHome);
             SelectCategory("Кошки");
+            
             PageFactory.InitElements(browser, pageCatalogBreed);
-
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
             List<IWebElement> count = browser.FindElements(elementCount).ToList();
 
             Comparator find = new Comparator();
-
             breed[find.FindMaxFromCatalog(breed, count)].Click();
 
             PageFactory.InitElements(browser, pageBreed);
@@ -123,6 +111,7 @@ namespace TDD
             if(browser == null)
             {
                 browser = new OpenQA.Selenium.Chrome.ChromeDriver();
+                //browser = new OpenQA.Selenium.Firefox.FirefoxDriver();
                 browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
             }
             
@@ -135,39 +124,18 @@ namespace TDD
         /// </summary>
         /// <param name="category">Название категории</param>
         public void SelectCategory(string category)
-        {            
-            
+        {
+
+            /*
             SelectElement select = new SelectElement(pageHome.SelectCategory);
-            IList<IWebElement> options = select.Options;
+            IList<IWebElement> options = select.Options;           
             select.SelectByText(category);                                    
             pageHome.BtnSearch.Click();
-            
-        }
+            */
 
-        /// <summary>
-        /// Поиск ссылки на породу с максимальным количеством предложений.
-        /// </summary>
-        /// <param name="breed">Список элементов с названием породы</param>
-        /// <param name="count">Список элементов с количеством предложений</param>
-        /// <returns>Возвращает индекс элемента с максимальным количеством предложений</returns>        
-        public int FindMaxFromCatalog(List<IWebElement> breed, List<IWebElement> count)
-        {
+            pageHome.InputSearch.SendKeys("Кошки" + OpenQA.Selenium.Keys.Enter);
             
-            int max = 0;
-            int maxIndex = 0;
-            
-            for(int i = 0; i < count.Count; i++)
-            {
-                int compare = Int32.Parse(count[i].Text);
-                if ((compare > max) && (breed[i].Text != "Другая"))
-                {
-                    max = compare;
-                    maxIndex = i;
-                }
-            }
-
-            return maxIndex;           
-        }
+        }        
 
         /// <summary>
         /// Получение информации из объявления и заполнение соответствующих элементов формы.
@@ -175,21 +143,13 @@ namespace TDD
         public void GetInfo()
         {
             
-            labelName.Text = pageInfo.TxtName.Text;            
-
-            //var date = browser.FindElement(elementDate);
-            labelNumber.Text = pageInfo.TxtDate.Text;            
-
-            //var breed = browser.FindElement(elementBreed);
-            labelBreed.Text = pageInfo.TxtBreed.Text;            
-
-            //var description = browser.FindElement(elementDescription);
-            textBoxInfo.AppendText(pageInfo.TxtDescription.Text + "\n");            
-
-            //var contact = browser.FindElement(elementContact);
+            labelName.Text = pageInfo.TxtName.Text;                    
+            labelNumber.Text = pageInfo.TxtDate.Text;           
+            labelBreed.Text = pageInfo.TxtBreed.Text;
+                               
+            textBoxInfo.AppendText(pageInfo.TxtDescription.Text + "\n");                    
             textBoxContact.AppendText(pageInfo.TxtContact.Text + "\n");
-           
-            //var location = browser.FindElement(elementLocation);
+                   
             string adress = pageInfo.TxtLocation.Text;
             string substring = "Посмотреть карту";
 
@@ -200,11 +160,10 @@ namespace TDD
             }
 
             textBoxContact.AppendText(adress + "\n");
-            
-            pictureBoxCat.ImageLocation = pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src");
-            
-            var phone = browser.FindElement(phoneButton);
-            phone.Click();            
+
+            pictureBoxCat.ImageLocation = pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src");            
+
+            pageInfo.BtnShowPhone.Click();
             System.Threading.Thread.Sleep(1000);
             Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
             pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);
@@ -213,22 +172,7 @@ namespace TDD
             browser.Manage().Window.Minimize();
 
         }
-
-        /// <summary>
-        /// Получение адреса, загрузка и сохранение изображения.
-        /// !!! Не работает с длинным url .
-        /// </summary>
-        public void GetPhotoPhone()
-        {            
-            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);            
-            string urlImagePhone = browser.FindElement(phoneImage).FindElement(imageTag).GetAttribute("src");
-            textBoxInfo.AppendText(urlImagePhone + "\n");
-            WebClient client = new WebClient();
-            Uri uri = new Uri(urlImagePhone);
-            client.DownloadFile(uri, "imagePhone.jpg");
-            pictureBoxPhone.Image = Image.FromFile("imagePhone.jpg");            
-        }
-
+        
         /// <summary>
         /// Создание и сохранение снимка экрана.
         /// </summary>
@@ -248,6 +192,7 @@ namespace TDD
         /// <summary>
         /// Извлечение области из снимка экрана.
         /// !!! Проверялось с разрешением экрана 1680х900.
+        /// !!! FireFox позиция немного смещается вверх. 
         /// </summary>
         /// <param name="bmpIn">Исходное изображение</param>
         /// <returns>Возвращает обработанное изображение</returns>

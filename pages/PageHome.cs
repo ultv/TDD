@@ -8,7 +8,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TDD.pages
 {
-    class PageHome
+    public class PageHome
     {
         
         /// <summary>
@@ -16,6 +16,12 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "js-search-form-category")]
         public IWebElement SelectCategory { get; set; }
+
+        /// <summary>
+        /// Поле ввода текста для поиска.
+        /// </summary>
+        [FindsBy(How = How.ClassName, Using = "suggest_search")]
+        public IWebElement InputSearch { get; set; }
 
         /// <summary>
         /// Кнопка "Найти" на панели параметров поиска.

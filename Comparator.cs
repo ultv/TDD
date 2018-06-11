@@ -23,7 +23,7 @@ namespace TDD
 
             for (int i = 0; i < count.Count; i++)
             {
-                int compare = Int32.Parse(count[i].Text);
+                int compare = Int32.Parse(count[i].Text.Replace(" ", ""));
                 if ((compare > max) && (breed[i].Text != "Другая"))
                 {
                     max = compare;
