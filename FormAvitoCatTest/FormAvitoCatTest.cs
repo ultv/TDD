@@ -18,6 +18,8 @@ namespace FormAvitoCatTest
         public IWebDriver br;
         public PageHome pHome = new PageHome();
         public PageCatalogBreed pCatalogBreed = new PageCatalogBreed();
+        public PageBreed pBreed = new PageBreed();
+        public PageInfo pInfo = new PageInfo();
         public By linkBreed = By.ClassName("js-catalog-counts__link");
         public By elementCount = By.ClassName("catalog-counts__number");
 
@@ -60,16 +62,29 @@ namespace FormAvitoCatTest
         
         [Test]
         public void test3()//GoToBreed()
-        {
-        
+        {            
             PageFactory.InitElements(br, pCatalogBreed);
             List<IWebElement> breed = br.FindElements(linkBreed).ToList();
             List<IWebElement> count = br.FindElements(elementCount).ToList();
 
             Comparator find = new Comparator();
-            breed[find.FindMaxFromCatalog(breed, count)].Click();
+            int index = find.FindMaxFromCatalog(breed, count);
+            string findBreedName = breed[index].Text;
+            breed[index].Click();
 
-            Assert.IsTrue(br.Title == "Кошки и котята породы Шотландская - купить из питомников и частные объявления о продаже животных в Ульяновске на Avito");
+            Assert.IsTrue(br.Title == $"Кошки и котята породы {findBreedName} - купить из питомников и частные объявления о продаже животных в Ульяновске на Avito");
+        }
+
+        [Test]
+        public void test4()//GoToCat()
+        {
+            PageFactory.InitElements(br, pBreed);
+            pBreed.LinkFirst.Click();
+
+            PageFactory.InitElements(br, pInfo);
+            string name = pInfo.TxtName.Text;
+
+            Assert.IsTrue(br.Title.Contains("Котик - купить, продать или отдать в Ульяновской области на Avito"));
         }
         
 

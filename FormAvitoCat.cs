@@ -166,7 +166,7 @@ namespace TDD
             pageInfo.BtnShowPhone.Click();
             System.Threading.Thread.Sleep(1000);
             Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
-            pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);
+            pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);            
 
             this.Activate();
             browser.Manage().Window.Minimize();
