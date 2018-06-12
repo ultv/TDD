@@ -5,6 +5,7 @@ using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.PageObjects;
 using TDD;
+
 using System.Linq;
 
 
@@ -16,7 +17,7 @@ namespace FormAvitoCatTest
     {
        
         [Test]
-        public void test1()//GoToAvito()
+        public void test1_GoToAvito()
         {
             // Arrange
             browser = new OpenQA.Selenium.Chrome.ChromeDriver();
@@ -33,7 +34,7 @@ namespace FormAvitoCatTest
 
      
         [Test]
-        public void test2()//GoToCats()
+        public void test2_GoToCats()
         {
             //Arrange
             PageFactory.InitElements(browser, pageHome);         
@@ -52,7 +53,7 @@ namespace FormAvitoCatTest
 
 
         [Test]
-        public void test3()//GoToBreed()
+        public void test3_GoToBreed()
         {   
             //Arrange
             PageFactory.InitElements(browser, pageCatalogBreed);
@@ -74,7 +75,7 @@ namespace FormAvitoCatTest
       
 
         [Test]
-        public void test4()//GoToCat()
+        public void test4_GoToCat()
         {
             //Arrange
             PageFactory.InitElements(browser, pageBreed);
@@ -93,7 +94,7 @@ namespace FormAvitoCatTest
 
 
         [Test]
-        public void test5()//GoToPhone()
+        public void test5_ShowPhone()
         {
             //Arrange
             pageInfo.BtnShowPhone.Click();          

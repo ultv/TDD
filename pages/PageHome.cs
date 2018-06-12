@@ -8,6 +8,9 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TDD.pages
 {
+    /// <summary>
+    /// Стартовая страница.
+    /// </summary>
     public class PageHome
     {
         
@@ -26,6 +29,7 @@ namespace TDD.pages
         [FindsBy(How = How.CssSelector, Using = "#category")]
         public IWebElement SelectCategoryCss { get; set; }
 
+
         /// <summary>
         /// Поле ввода текста для поиска.
         /// </summary>
@@ -40,6 +44,7 @@ namespace TDD.pages
 
         [FindsBy(How = How.CssSelector, Using = "#search")]
         public IWebElement InputSearchCss { get; set; }
+
 
         /// <summary>
         /// Кнопка "Найти" на панели параметров поиска.

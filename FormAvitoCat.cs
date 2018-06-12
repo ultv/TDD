@@ -30,13 +30,17 @@ namespace TDD
         PageBreed pageBreed = new PageBreed();
                                         
         By linkBreed = By.ClassName("js-catalog-counts__link");
-        By elementCount = By.ClassName("catalog-counts__number");
-        By callNote = By.ClassName("item-phone-call-note");
+        By elementCount = By.ClassName("catalog-counts__number");       
+        By imagePhone = By.CssSelector(".item-phone-big-number img");
         By imageTag = By.TagName("img");       
 
         public FormAvitoCat()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
+
+        private void FormAvitoCat_Load(object sender, EventArgs e)
+        {
             InitForm();
         }
 
@@ -47,7 +51,9 @@ namespace TDD
         {
             labelName.Text = "Имя";                        
             labelNumber.Text = "Номер объявления:";                       
-            labelBreed.Text = "Порода:";            
+            labelBreed.Text = "Порода:";
+            labelViews.Text = "Кол-во просмотров:";
+            labelPrice.Text = "Стоимость:";
             
             textBoxInfo.Clear();                        
             textBoxContact.Clear();
@@ -58,7 +64,9 @@ namespace TDD
             labelNumber.Enabled = false;
             labelContact.Enabled = false;
             labelBreed.Enabled = false;
-            labelDescription.Enabled = false;            
+            labelDescription.Enabled = false;
+            labelViews.Enabled = false;
+            labelPrice.Enabled = false;
         }
 
         /// <summary>
@@ -73,6 +81,8 @@ namespace TDD
             labelContact.Enabled = true;
             labelBreed.Enabled = true;
             labelDescription.Enabled = true;
+            labelViews.Enabled = true;
+            labelPrice.Enabled = true;
         }
 
         /// <summary>
@@ -143,12 +153,20 @@ namespace TDD
             labelName.Text = pageInfo.TxtName.Text;                    
             labelNumber.Text = pageInfo.TxtDate.Text;           
             labelBreed.Text = pageInfo.TxtBreed.Text;
-                               
+            labelViews.Text += pageInfo.TxtCountViews.Text;
+
+            string substring = pageInfo.TxtPriceCss.Text;
+            if(substring != "Цена не указана")
+            {
+                substring = substring.Substring(0, substring.Length - 2) + " рублей.";
+            }
+
+            labelPrice.Text += substring;                               
             textBoxInfo.AppendText(pageInfo.TxtDescription.Text + "\n");                    
             textBoxContact.AppendText(pageInfo.TxtContact.Text + "\n");
                    
             string adress = pageInfo.TxtLocation.Text;
-            string substring = "Посмотреть карту";
+            substring = "Посмотреть карту";
 
             if (adress.Contains(substring))
             {                
@@ -157,13 +175,11 @@ namespace TDD
             }
 
             textBoxContact.AppendText(adress + "\n");
-
             pictureBoxCat.ImageLocation = pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src");            
-
-            pageInfo.BtnShowPhone.Click();
+            pageInfo.BtnShowPhoneCss.Click();
 
             WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
-            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(callNote));
+            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(imagePhone));
 
             Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
             pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);            
@@ -213,10 +229,6 @@ namespace TDD
                 browser.Quit();
             }            
         }
-
-        private void FormAvitoCat_Load(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

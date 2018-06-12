@@ -38,6 +38,8 @@
             this.labelContact = new System.Windows.Forms.Label();
             this.textBoxContact = new System.Windows.Forms.TextBox();
             this.labelBreed = new System.Windows.Forms.Label();
+            this.labelViews = new System.Windows.Forms.Label();
+            this.labelPrice = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhone)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCat)).BeginInit();
             this.SuspendLayout();
@@ -132,17 +134,37 @@
             // labelBreed
             // 
             this.labelBreed.AutoSize = true;
-            this.labelBreed.Location = new System.Drawing.Point(27, 318);
+            this.labelBreed.Location = new System.Drawing.Point(27, 317);
             this.labelBreed.Name = "labelBreed";
             this.labelBreed.Size = new System.Drawing.Size(48, 13);
             this.labelBreed.TabIndex = 9;
             this.labelBreed.Text = "Порода:";
+            // 
+            // labelViews
+            // 
+            this.labelViews.AutoSize = true;
+            this.labelViews.Location = new System.Drawing.Point(27, 337);
+            this.labelViews.Name = "labelViews";
+            this.labelViews.Size = new System.Drawing.Size(108, 13);
+            this.labelViews.TabIndex = 10;
+            this.labelViews.Text = "Кол-во просмотров:";
+            // 
+            // labelPrice
+            // 
+            this.labelPrice.AutoSize = true;
+            this.labelPrice.Location = new System.Drawing.Point(27, 358);
+            this.labelPrice.Name = "labelPrice";
+            this.labelPrice.Size = new System.Drawing.Size(65, 13);
+            this.labelPrice.TabIndex = 11;
+            this.labelPrice.Text = "Стоимость:";
             // 
             // FormAvitoCat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelPrice);
+            this.Controls.Add(this.labelViews);
             this.Controls.Add(this.labelBreed);
             this.Controls.Add(this.textBoxContact);
             this.Controls.Add(this.labelContact);
@@ -176,6 +198,8 @@
         private System.Windows.Forms.Label labelContact;
         private System.Windows.Forms.TextBox textBoxContact;
         private System.Windows.Forms.Label labelBreed;
+        private System.Windows.Forms.Label labelViews;
+        private System.Windows.Forms.Label labelPrice;
     }
 }
 
