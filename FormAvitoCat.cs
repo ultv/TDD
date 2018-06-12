@@ -191,14 +191,13 @@ namespace TDD
 
         /// <summary>
         /// Извлечение области из снимка экрана.
-        /// !!! Проверялось с разрешением экрана 1680х900.
-        /// !!! Позиция медленно смещается вверх. 
+        /// !!! Проверялось с разрешением экрана 1680х900.        
         /// </summary>
         /// <param name="bmpIn">Исходное изображение</param>
         /// <returns>Возвращает обработанное изображение</returns>
         public Bitmap CutPhoneFromScreenshot(Bitmap bmpIn)
         {
-            Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 330, 340, 60), bmpIn.PixelFormat);
+            Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 300, 340, 60), bmpIn.PixelFormat);
             return bmpOut;
         }
 
