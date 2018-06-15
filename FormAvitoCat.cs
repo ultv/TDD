@@ -23,11 +23,11 @@ namespace TDD
 {
     public partial class FormAvitoCat : Form
     {
-        IWebDriver browser;
-        PageHome pageHome = new PageHome();
-        PageInfo pageInfo = new PageInfo();
-        PageCatalogBreed pageCatalogBreed = new PageCatalogBreed();
-        PageBreed pageBreed = new PageBreed();
+        static IWebDriver browser;
+        PageHome pageHome;
+        PageInfo pageInfo;
+        PageCatalogBreed pageCatalogBreed;
+        PageBreed pageBreed;
                                         
         By linkBreed = By.ClassName("js-catalog-counts__link");
         By elementCount = By.ClassName("catalog-counts__number");       
@@ -94,22 +94,22 @@ namespace TDD
         {
             InitForm();
             OpenBrowser("http://avito.ru");
-
-            PageFactory.InitElements(browser, pageHome);
-            SelectCategory("Кошки");
             
-            PageFactory.InitElements(browser, pageCatalogBreed);
+            pageHome = new PageHome(browser);
+            SelectCategory("Кошки");
+
+            pageCatalogBreed = new PageCatalogBreed(browser);
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
             List<IWebElement> count = browser.FindElements(elementCount).ToList();
 
             Comparator find = new Comparator();
             breed[find.FindMaxFromCatalog(breed, count)].Click();
 
-            PageFactory.InitElements(browser, pageBreed);
+            pageBreed = new PageBreed(browser);
             pageBreed.LinkFirst.Click();
             
             SetEnabled();
-            PageFactory.InitElements(browser, pageInfo);
+            pageInfo = new PageInfo(browser);
             GetInfo();
         }
 
@@ -213,7 +213,7 @@ namespace TDD
         /// <returns>Возвращает обработанное изображение</returns>
         public Bitmap CutPhoneFromScreenshot(Bitmap bmpIn)
         {
-            Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 300, 340, 60), bmpIn.PixelFormat);
+            Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 340, 340, 60), bmpIn.PixelFormat);
             return bmpOut;
         }
 

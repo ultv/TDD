@@ -14,6 +14,11 @@ namespace TDD.pages
     public class PageBreed
     {
         
+        public PageBreed(IWebDriver browser)
+        {
+            PageFactory.InitElements(browser, this);
+        }
+
         /// <summary>
         /// Первая ссылка в объявлениях выбранной породы.
         /// </summary>

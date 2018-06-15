@@ -12,7 +12,12 @@ namespace TDD.pages
     /// Страница со всеми породами.
     /// </summary>
     public class PageCatalogBreed
-    {        
+    {
+        public PageCatalogBreed(IWebDriver browser)
+        {
+            PageFactory.InitElements(browser, this);
+        }
+
         /// <summary>
         /// Ссылка на объявления определенной породы.
         /// </summary>

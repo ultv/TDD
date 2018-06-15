@@ -5,6 +5,7 @@ using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.PageObjects;
 using TDD;
+using TDD.pages;
 
 using System.Linq;
 
@@ -34,10 +35,10 @@ namespace FormAvitoCatTest
 
      
         [Test]
-        public void test2_GoToCats()
+        public void test2_GoFromHomeToCats()
         {
-            //Arrange
-            PageFactory.InitElements(browser, pageHome);         
+            //Arrange            
+            pageHome = new PageHome(browser);
             SelectElement select = new SelectElement(pageHome.SelectCategory);
             IList<IWebElement> options = select.Options;
             select.SelectByText("Кошки");
@@ -53,10 +54,10 @@ namespace FormAvitoCatTest
 
 
         [Test]
-        public void test3_GoToBreed()
-        {   
+        public void test3_GoFromCatsToBreed()
+        {
             //Arrange
-            PageFactory.InitElements(browser, pageCatalogBreed);
+            pageCatalogBreed = new PageCatalogBreed(browser);
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
             List<IWebElement> count = browser.FindElements(elementCount).ToList();
 
@@ -75,12 +76,12 @@ namespace FormAvitoCatTest
       
 
         [Test]
-        public void test4_GoToCat()
+        public void test4_GoFromBreedToCat()
         {
             //Arrange
-            PageFactory.InitElements(browser, pageBreed);
+            pageBreed = new PageBreed(browser);
             pageBreed.LinkFirst.Click();
-            PageFactory.InitElements(browser, pageInfo);
+            pageInfo = new PageInfo(browser);
             string name = pageInfo.TxtName.Text;
             string expected = $"{name} - купить, продать или отдать в Ульяновской области на Avito";
 
@@ -99,7 +100,7 @@ namespace FormAvitoCatTest
             //Arrange
             pageInfo.BtnShowPhone.Click();          
             WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
-            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(callNote));
+            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(imagePhone));
             string expected = "Скажите продавцу, что нашли это объявление на Avito";
 
             //Act

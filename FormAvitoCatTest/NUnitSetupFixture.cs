@@ -13,14 +13,15 @@ namespace FormAvitoCatTest
     [SetUpFixture]
     public class NUnitSetupFixture
     {
-        public IWebDriver browser;
-        public PageHome pageHome = new PageHome();
-        public PageCatalogBreed pageCatalogBreed = new PageCatalogBreed();
-        public PageBreed pageBreed = new PageBreed();
-        public PageInfo pageInfo = new PageInfo();
+        static public IWebDriver browser;
+        public PageHome pageHome;
+        public PageCatalogBreed pageCatalogBreed;
+        public PageBreed pageBreed;
+        public PageInfo pageInfo;
         public By linkBreed = By.ClassName("js-catalog-counts__link");
         public By elementCount = By.ClassName("catalog-counts__number");
         public By callNote = By.ClassName("item-phone-call-note");
+        public By imagePhone = By.CssSelector(".item-phone-big-number img");
 
         [OneTimeSetUp]
         public void RunBeforeAnyTests()

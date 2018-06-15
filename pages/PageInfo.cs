@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
+using TDD;
 
 namespace TDD.pages
 {
@@ -13,6 +15,11 @@ namespace TDD.pages
     /// </summary>
     public class PageInfo
     {
+        public PageInfo(IWebDriver browser)
+        {
+            PageFactory.InitElements(browser, this);
+        }
+
         /// <summary>
         /// Заголовок выбранного объявления.
         /// </summary>
@@ -70,6 +77,7 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "item-phone-button-sub-text")]
         public IWebElement BtnShowPhone { get; set; }
+       
 
         [FindsBy(How = How.CssSelector, Using = ".item-phone-number a")]
         public IWebElement BtnShowPhoneCss { get; set; }
@@ -85,7 +93,7 @@ namespace TDD.pages
         /// <summary>
         /// Количество просмотров.
         /// </summary>
-        [FindsBy(How = How.ClassName, Using = "js-show-stat")]
+        [FindsBy(How = How.ClassName, Using = "title-info-views")]
         public IWebElement TxtCountViews { get; set; }
 
 
