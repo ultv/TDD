@@ -94,9 +94,10 @@ namespace TDD
         {
             InitForm();
             OpenBrowser("http://avito.ru");
-            
-            pageHome = new PageHome(browser);
-            SelectCategory("Кошки");
+
+            pageHome = PageHome.
+                                Create(browser).
+                                SelectCategory("Кошки");
 
             pageCatalogBreed = new PageCatalogBreed(browser);
             List<IWebElement> breed = browser.FindElements(linkBreed).ToList();            
@@ -135,9 +136,7 @@ namespace TDD
         /// </summary>
         /// <param name="category">Название категории</param>
         public void SelectCategory(string category)
-        {
-            //pageHome.InputSearch.SendKeys(category + OpenQA.Selenium.Keys.Enter);            
-                        
+        {                                    
             SelectElement select = new SelectElement(pageHome.SelectCategory);
             IList<IWebElement> options = select.Options;           
             select.SelectByText(category);                                    

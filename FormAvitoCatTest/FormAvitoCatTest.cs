@@ -38,11 +38,10 @@ namespace FormAvitoCatTest
         public void test2_GoFromHomeToCats()
         {
             //Arrange            
-            pageHome = new PageHome(browser);
-            SelectElement select = new SelectElement(pageHome.SelectCategory);
-            IList<IWebElement> options = select.Options;
-            select.SelectByText("Кошки");
-            pageHome.BtnSearch.Click();            
+            pageHome = PageHome.
+                                Create(browser).
+                                SelectCategory("Кошки");           
+
             string expected = "Купить кошек и котят из питомника и частные объявления о продаже животных в Ульяновске на Avito.";
 
             //Act

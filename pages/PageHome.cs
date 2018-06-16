@@ -13,7 +13,11 @@ namespace TDD.pages
     /// </summary>
     public class PageHome
     {
-        
+        public static PageHomeBuilder Create(IWebDriver browser)
+        {
+            return new PageHomeBuilder(new PageHome(browser));
+        }
+
         public PageHome(IWebDriver browser)
         {
             PageFactory.InitElements(browser, this);
