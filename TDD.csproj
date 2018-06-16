@@ -71,6 +71,7 @@
     <Compile Include="FormAvitoCat.Designer.cs">
       <DependentUpon>FormAvitoCat.cs</DependentUpon>
     </Compile>
+    <Compile Include="PageBreedBuilder.cs" />
     <Compile Include="PageCatalogBreedBuilder.cs" />
     <Compile Include="PageHomeBuilder.cs" />
     <Compile Include="pages\PageBreed.cs" />

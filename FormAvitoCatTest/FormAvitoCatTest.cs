@@ -56,7 +56,7 @@ namespace FormAvitoCatTest
         public void test3_GoFromCatsToBreed()
         {
             //Arrange
-            string findBreedName = "";
+            string findBreedName = "";            
             pageCatalogBreed = PageCatalogBreed.
                                                 Create(browser).
                                                 SelectMaxSentences(browser, ref findBreedName);
@@ -69,16 +69,17 @@ namespace FormAvitoCatTest
             //Asset
             Assert.AreEqual(expected, actual);
         }
-      
+        
 
         [Test]
         public void test4_GoFromBreedToCat()
         {
             //Arrange
-            pageBreed = new PageBreed(browser);
-            pageBreed.LinkFirst.Click();
-            pageInfo = new PageInfo(browser);
-            string name = pageInfo.TxtName.Text;
+            string name = "";
+            pageBreed = PageBreed.
+                                Create(browser).
+                                GoToFirstLink(browser, ref pageInfo, ref name);
+                                    
             string expected = $"{name} - купить, продать или отдать в Ульяновской области на Avito";
 
             //Act            
@@ -86,7 +87,7 @@ namespace FormAvitoCatTest
             actual = actual.Substring(0, expected.Length);
 
             //Assert
-            Assert.AreEqual(expected, actual);            
+            Assert.AreEqual(expected, actual);
         }
 
 

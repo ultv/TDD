@@ -103,8 +103,10 @@ namespace TDD
                                                 Create(browser).
                                                 SelectMaxSentences(browser);
 
-            pageBreed = new PageBreed(browser);
-            pageBreed.LinkFirst.Click();
+            pageBreed = PageBreed.
+                                 Create(browser).
+                                 GoToFirstLink();
+
             
             SetEnabled();
             pageInfo = new PageInfo(browser);

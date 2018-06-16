@@ -14,6 +14,11 @@ namespace TDD.pages
     public class PageBreed
     {
         
+        public static PageBreedBuilder Create(IWebDriver browser)
+        {
+            return new PageBreedBuilder(new PageBreed(browser));
+        }
+
         public PageBreed(IWebDriver browser)
         {
             PageFactory.InitElements(browser, this);
