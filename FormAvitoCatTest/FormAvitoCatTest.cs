@@ -89,24 +89,24 @@ namespace FormAvitoCatTest
             //Assert
             Assert.AreEqual(expected, actual);
         }
-
+       
 
         [Test]
         public void test5_ShowPhone()
         {
-            //Arrange
-            pageInfo.BtnShowPhone.Click();          
-            WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
-            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(imagePhone));
+            //Arrange            
+            pageInfo = PageInfo.
+                                Create(browser).
+                                ShowPhone(browser);
+                            
             string expected = "Скажите продавцу, что нашли это объявление на Avito";
 
             //Act
             string actual = pageInfo.TxtCallNote.Text;
 
             //Assert
-            Assert.AreEqual(expected, actual);            
+            Assert.AreEqual(expected, actual);
         }
-        
-        
+
     }
 }

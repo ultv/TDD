@@ -15,10 +15,17 @@ namespace TDD.pages
     /// </summary>
     public class PageInfo
     {
+
+        public static PageInfoBuilder Create(IWebDriver browser)
+        {
+            return new PageInfoBuilder(new PageInfo(browser));
+        }
+
         public PageInfo(IWebDriver browser)
         {
             PageFactory.InitElements(browser, this);
         }
+        
 
         /// <summary>
         /// Заголовок выбранного объявления.
@@ -102,6 +109,12 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.CssSelector, Using = ".item-price span")]
         public IWebElement TxtPriceCss { get; set; }
+
+        /// <summary>
+        /// Изображение с номером телефона.
+        /// </summary>
+        [FindsBy(How = How.CssSelector, Using = ".item-phone-big-number img")]
+        public IWebElement ImgPhone { get; set; }
 
 
         [FindsBy(How = How.ClassName, Using = "img")]
