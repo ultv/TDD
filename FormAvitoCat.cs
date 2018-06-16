@@ -25,10 +25,10 @@ namespace TDD
     {
         static IWebDriver browser;
         PageHome pageHome;
-        PageInfo pageInfo;
-        PageCatalogBreed pageCatalogBreed;
+        PageInfo pageInfo;        
         PageBreed pageBreed;
-                                        
+        PageCatalogBreed pageCatalogBreed;
+
         By linkBreed = By.ClassName("js-catalog-counts__link");
         By elementCount = By.ClassName("catalog-counts__number");       
         By imagePhone = By.CssSelector(".item-phone-big-number img");
@@ -99,7 +99,7 @@ namespace TDD
             SelectCategory("Кошки");
 
             pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
+            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();            
             List<IWebElement> count = browser.FindElements(elementCount).ToList();
 
             Comparator find = new Comparator();
