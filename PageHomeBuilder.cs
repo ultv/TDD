@@ -18,6 +18,11 @@ namespace TDD
             this.pageHome = page;
         }
 
+        /// <summary>
+        /// Выбор категории из значений выпадающего списка.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public PageHomeBuilder SelectCategory(string category)
         {
             SelectElement select = new SelectElement(pageHome.SelectCategory);

@@ -56,14 +56,11 @@ namespace FormAvitoCatTest
         public void test3_GoFromCatsToBreed()
         {
             //Arrange
-            pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
-            List<IWebElement> count = browser.FindElements(elementCount).ToList();
-
-            Comparator find = new Comparator();
-            int index = find.FindMaxFromCatalog(breed, count);
-            string findBreedName = breed[index].Text;
-            breed[index].Click();
+            string findBreedName = "";
+            pageCatalogBreed = PageCatalogBreed.
+                                                Create(browser).
+                                                SelectMaxSentences(browser, ref findBreedName);
+            
             string expected = $"Кошки и котята породы {findBreedName} - купить из питомников и частные объявления о продаже животных в Ульяновске на Avito";
 
             //Act

@@ -29,8 +29,8 @@ namespace TDD
         PageBreed pageBreed;
         PageCatalogBreed pageCatalogBreed;
 
-        By linkBreed = By.ClassName("js-catalog-counts__link");
-        By elementCount = By.ClassName("catalog-counts__number");       
+       // By linkBreed = By.ClassName("js-catalog-counts__link");
+      //  By elementCount = By.ClassName("catalog-counts__number");       
         By imagePhone = By.CssSelector(".item-phone-big-number img");
         By imageTag = By.TagName("img");       
 
@@ -97,14 +97,11 @@ namespace TDD
 
             pageHome = PageHome.
                                 Create(browser).
-                                SelectCategory("Кошки");
+                                SelectCategory("Кошки");            
 
-            pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();            
-            List<IWebElement> count = browser.FindElements(elementCount).ToList();
-
-            Comparator find = new Comparator();
-            breed[find.FindMaxFromCatalog(breed, count)].Click();
+            pageCatalogBreed = PageCatalogBreed.
+                                                Create(browser).
+                                                SelectMaxSentences(browser);
 
             pageBreed = new PageBreed(browser);
             pageBreed.LinkFirst.Click();
@@ -130,18 +127,7 @@ namespace TDD
             browser.Manage().Window.Maximize();
             browser.Navigate().GoToUrl(url);            
         }
-
-        /// <summary>
-        /// Выбор категории из значений выпадающего списка.
-        /// </summary>
-        /// <param name="category">Название категории</param>
-        public void SelectCategory(string category)
-        {                                    
-            SelectElement select = new SelectElement(pageHome.SelectCategory);
-            IList<IWebElement> options = select.Options;           
-            select.SelectByText(category);                                    
-            pageHome.BtnSearch.Click();            
-        }
+        
 
         /// <summary>
         /// Получение информации из объявления и заполнение соответствующих элементов формы.
