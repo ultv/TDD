@@ -101,12 +101,13 @@ namespace TDD
 
             pageInfo = PageInfo.
                                 Create(browser).
-                                GetInfo(this, browser);           
+                                GetInfo(this, browser);
 
+        
             System.Threading.Thread.Sleep(2000);
-            MakeScroll(250);
+            FindScrollBar();
             System.Threading.Thread.Sleep(2000);
-            MakeScroll(700);
+            MakeScroll();            
             System.Threading.Thread.Sleep(5000);
 
             this.Activate();
@@ -145,13 +146,39 @@ namespace TDD
         }
 
         /// <summary>
-        /// Скролл вниз.
+        /// Скролл дважды вниз, если есть сообщение о наличии скроллбара.
         /// </summary>
         /// <param name="offset"></param>
-        public void MakeScroll(int offset)
+        public void MakeScroll()
         {
-            javaEx = (IJavaScriptExecutor)browser;
-            javaEx.ExecuteScript($"window.scrollTo(0, {offset});");
+            try
+            {
+                IAlert alert = browser.SwitchTo().Alert();
+                if(alert.Text == "Скроллбар присутствует")
+                {
+                    System.Threading.Thread.Sleep(2000);
+                    alert.Accept();
+                    System.Threading.Thread.Sleep(2000);
+                    javaEx = (IJavaScriptExecutor)browser;
+                    javaEx.ExecuteScript($"window.scrollTo(0, 250);");
+                    System.Threading.Thread.Sleep(2000);
+                    javaEx.ExecuteScript($"window.scrollTo(0, 600);");
+                }
+                
+            }
+            catch
+            {
+
+            }            
+        }
+
+        /// <summary>
+        /// Вывод сообщения, если скроллбар присутствует.
+        /// </summary>
+        public void FindScrollBar()
+        {            
+            javaEx = (IJavaScriptExecutor)browser;                       
+            javaEx.ExecuteScript("if (document.body.offsetHeight > window.innerHeight) alert('Скроллбар присутствует');");
         }
 
         /// <summary>
