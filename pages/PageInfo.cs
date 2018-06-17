@@ -116,6 +116,12 @@ namespace TDD.pages
         [FindsBy(How = How.CssSelector, Using = ".item-phone-big-number img")]
         public IWebElement ImgPhone { get; set; }
 
+        /// <summary>
+        /// Иконка для закрытия окна с номером телефона.
+        /// </summary>
+        [FindsBy(How = How.CssSelector, Using = ".item-popup span")]
+        public IWebElement LinkPhoneClose { get; set; }
+
 
         [FindsBy(How = How.ClassName, Using = "img")]
         public IWebElement ImgTag { get; set; }

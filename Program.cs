@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace TDD
 {
     static class Program
-    {
+    {        
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>

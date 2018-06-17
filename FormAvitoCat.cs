@@ -8,12 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Interactions;
-using System.Net;
-using System.Drawing.Imaging;
-using System.IO;
 using TDD.pages;
 
 
@@ -24,6 +18,7 @@ namespace TDD
     public partial class FormAvitoCat : Form
     {
         static IWebDriver browser;
+        IJavaScriptExecutor javaEx;
         PageHome pageHome;
         PageInfo pageInfo;        
         PageBreed pageBreed;
@@ -35,7 +30,7 @@ namespace TDD
         By imageTag = By.TagName("img");       
 
         public FormAvitoCat()
-        {
+        {            
             InitializeComponent();            
         }
 
@@ -105,12 +100,22 @@ namespace TDD
 
             pageBreed = PageBreed.
                                  Create(browser).
-                                 GoToFirstLink();
-
+                                 GoToFirstLink();            
             
             SetEnabled();
-            pageInfo = new PageInfo(browser);
-            GetInfo();
+
+            pageInfo = PageInfo.
+                                Create(browser).
+                                GetInfo(this, browser);           
+
+            System.Threading.Thread.Sleep(2000);
+            MakeScroll(250);
+            System.Threading.Thread.Sleep(2000);
+            MakeScroll(700);
+            System.Threading.Thread.Sleep(5000);
+
+            this.Activate();
+            browser.Manage().Window.Minimize();
         }
 
         /// <summary>
@@ -129,80 +134,7 @@ namespace TDD
             browser.Manage().Window.Maximize();
             browser.Navigate().GoToUrl(url);            
         }
-        
-
-        /// <summary>
-        /// Получение информации из объявления и заполнение соответствующих элементов формы.
-        /// </summary>
-        public void GetInfo()
-        {
-            
-            labelName.Text = pageInfo.TxtName.Text;                    
-            labelNumber.Text = pageInfo.TxtDate.Text;           
-            labelBreed.Text = pageInfo.TxtBreed.Text;
-            labelViews.Text += pageInfo.TxtCountViews.Text;
-
-            string substring = pageInfo.TxtPriceCss.Text;
-            if(substring != "Цена не указана")
-            {
-                substring = substring.Substring(0, substring.Length - 2) + " рублей.";
-            }
-
-            labelPrice.Text += substring;                               
-            textBoxInfo.AppendText(pageInfo.TxtDescription.Text + "\n");                    
-            textBoxContact.AppendText(pageInfo.TxtContact.Text + "\n");
-                   
-            string adress = pageInfo.TxtLocation.Text;
-            substring = "Посмотреть карту";
-
-            if (adress.Contains(substring))
-            {                
-                int index = adress.IndexOf("Посмотреть карту");
-                adress = adress.Remove(index, substring.Length);
-            }
-
-            textBoxContact.AppendText(adress + "\n");
-            pictureBoxCat.ImageLocation = pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src");            
-            pageInfo.BtnShowPhoneCss.Click();
-
-            WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
-            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(imagePhone));
-
-            Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
-            pictureBoxPhone.Image = CutPhoneFromScreenshot(screenshot);            
-
-            this.Activate();
-            browser.Manage().Window.Minimize();
-
-        }
-        
-        /// <summary>
-        /// Создание и сохранение снимка экрана.
-        /// </summary>
-        /// <param name="br">Браузер</param>
-        /// <param name="location">Путь для сохранения изображения</param>
-        /// <returns>Возвращает сохраненное изображение</returns>
-        public Bitmap GetScreenshot(IWebDriver br, string location)
-        {
-            ITakesScreenshot screenshotDriver = br as ITakesScreenshot;
-            Screenshot screnshot = screenshotDriver.GetScreenshot();
-            screnshot.SaveAsFile(location);
-            Bitmap bmp = new Bitmap(location);
-
-            return bmp;
-        }
-
-        /// <summary>
-        /// Извлечение области из снимка экрана.
-        /// !!! Проверялось с разрешением экрана 1680х900.        
-        /// </summary>
-        /// <param name="bmpIn">Исходное изображение</param>
-        /// <returns>Возвращает обработанное изображение</returns>
-        public Bitmap CutPhoneFromScreenshot(Bitmap bmpIn)
-        {
-            Bitmap bmpOut = bmpIn.Clone(new Rectangle(530, 340, 340, 60), bmpIn.PixelFormat);
-            return bmpOut;
-        }
+                                       
 
         /// <summary>
         /// Закрытие браузера при закрытии формы.
@@ -216,6 +148,97 @@ namespace TDD
                 browser.Quit();
             }            
         }
+
+        /// <summary>
+        /// Скролл вниз.
+        /// </summary>
+        /// <param name="offset"></param>
+        public void MakeScroll(int offset)
+        {
+            javaEx = (IJavaScriptExecutor)browser;
+            javaEx.ExecuteScript($"window.scrollTo(0, {offset});");
+        }
+
+        /// <summary>
+        /// Присвоение имени.
+        /// </summary>
+        /// <param name="name"></param>
+        public void SetName(string name)
+        {
+            labelName.Text = name;
+        }
+
+        /// <summary>
+        /// Присвоение номера объявления.
+        /// </summary>
+        /// <param name="number"></param>
+        public void SetNumber(string number)
+        {
+            labelNumber.Text = number;
+        }
+
+        /// <summary>
+        /// Присвоение породы.
+        /// </summary>
+        /// <param name="breed"></param>
+        public void SetBreed(string breed)
+        {
+            labelBreed.Text = breed;
+        }
+
+        /// <summary>
+        /// Присвоение количества просмотров.
+        /// </summary>
+        /// <param name="views"></param>
+        public void SetViews(string views)
+        {
+            labelViews.Text += views;
+        }
+
+        /// <summary>
+        /// Присвоение стоимости.
+        /// </summary>
+        /// <param name="price"></param>
+        public void SetPrice(string price)
+        {
+            labelPrice.Text += price;
+        }
         
+        /// <summary>
+        /// Добавление информации.
+        /// </summary>
+        /// <param name="info"></param>
+        public void AddInfo(string info)
+        {
+            textBoxInfo.AppendText(info);
+        }
+
+        /// <summary>
+        /// Добавление контактов.
+        /// </summary>
+        /// <param name="contact"></param>
+        public void AddContact(string contact)
+        {
+            textBoxContact.AppendText(contact);
+        }
+
+        /// <summary>
+        /// Присвоение адреса изображения.
+        /// </summary>
+        /// <param name="location"></param>
+        public void SetImageLocation(string location)
+        {
+            pictureBoxCat.ImageLocation = location;
+        }
+
+        /// <summary>
+        /// Присвоение изображения.
+        /// </summary>
+        /// <param name="image"></param>
+        public void SetImagePhone(Image image)
+        {
+            pictureBoxPhone.Image = image;
+        }
+
     }
 }
