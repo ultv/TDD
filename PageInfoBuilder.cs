@@ -14,9 +14,7 @@ namespace TDD
 {
     public class PageInfoBuilder
     {
-        private PageInfo pageInfo;
-        public By imagePhone = By.CssSelector(".item-phone-big-number img");
-        By imageTag = By.TagName("img");
+        private PageInfo pageInfo;      
 
         public PageInfoBuilder(PageInfo page)
         {
@@ -27,7 +25,7 @@ namespace TDD
         {
             pageInfo.BtnShowPhone.Click();
             WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
-            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(imagePhone));
+            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(pageInfo.ImgPhoneBy));
 
             return this;
         }
@@ -71,11 +69,11 @@ namespace TDD
             }
 
             form.AddContact(adress + "\n");
-            form.SetImageLocation(pageInfo.ImgMain.FindElement(imageTag).GetAttribute("src"));
-            pageInfo.BtnShowPhoneCss.Click();
+            form.SetImageLocation(pageInfo.ImgMain.FindElement(pageInfo.imgTagBy).GetAttribute("src"));
+            pageInfo.BtnShowPhone.Click();
 
             WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
-            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(imagePhone));
+            IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(pageInfo.ImgPhoneBy));
 
             Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
             form.SetImagePhone(CutPhoneFromScreenshot(screenshot));

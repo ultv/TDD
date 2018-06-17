@@ -31,10 +31,8 @@ namespace TDD.pages
         /// Заголовок выбранного объявления.
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "title-info-title-text")]
-        public IWebElement TxtName { get; set; }
-
         [FindsBy(How = How.CssSelector, Using = ".title-info-title span")]
-        public IWebElement TxtNameCss { get; set; }
+        public IWebElement TxtName { get; set; }
 
 
         /// <summary>
@@ -83,12 +81,9 @@ namespace TDD.pages
         /// Кнопка "Показать телефон" на странице выбранного объявления.
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "item-phone-button-sub-text")]
+        [FindsBy(How = How.CssSelector, Using = ".item-phone-number a")]
         public IWebElement BtnShowPhone { get; set; }
        
-
-        [FindsBy(How = How.CssSelector, Using = ".item-phone-number a")]
-        public IWebElement BtnShowPhoneCss { get; set; }
-
 
         /// <summary>
         /// Рекомендация покупателю.
@@ -115,6 +110,7 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.CssSelector, Using = ".item-phone-big-number img")]
         public IWebElement ImgPhone { get; set; }
+        public By ImgPhoneBy { get { return By.CssSelector(".item-phone-big-number img"); } }
 
         /// <summary>
         /// Иконка для закрытия окна с номером телефона.
@@ -123,7 +119,7 @@ namespace TDD.pages
         public IWebElement LinkPhoneClose { get; set; }
 
 
-        [FindsBy(How = How.ClassName, Using = "img")]
-        public IWebElement ImgTag { get; set; }
+        [FindsBy(How = How.TagName, Using = "img")]
+        public By imgTagBy { get { return By.TagName("img"); } }
     }
 }

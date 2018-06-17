@@ -22,12 +22,7 @@ namespace TDD
         PageHome pageHome;
         PageInfo pageInfo;        
         PageBreed pageBreed;
-        PageCatalogBreed pageCatalogBreed;
-
-       // By linkBreed = By.ClassName("js-catalog-counts__link");
-      //  By elementCount = By.ClassName("catalog-counts__number");       
-        By imagePhone = By.CssSelector(".item-phone-big-number img");
-        By imageTag = By.TagName("img");       
+        PageCatalogBreed pageCatalogBreed;                
 
         public FormAvitoCat()
         {            

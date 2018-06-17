@@ -11,9 +11,7 @@ namespace TDD
 
     public class PageCatalogBreedBuilder
     {
-        By linkBreed = By.ClassName("js-catalog-counts__link");
-        By elementCount = By.ClassName("catalog-counts__number");
-
+       
         private PageCatalogBreed pageCatalogBreed;
 
         public PageCatalogBreedBuilder(PageCatalogBreed page)
@@ -29,8 +27,8 @@ namespace TDD
         public PageCatalogBreedBuilder SelectMaxSentences(IWebDriver browser)
         {
             pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
-            List<IWebElement> count = browser.FindElements(elementCount).ToList();
+            List<IWebElement> breed = browser.FindElements(pageCatalogBreed.LinkBreedBy).ToList();
+            List<IWebElement> count = browser.FindElements(pageCatalogBreed.TxtCountsBy).ToList();
 
             Comparator find = new Comparator();
             breed[find.FindMaxFromCatalog(breed, count)].Click();
@@ -47,8 +45,8 @@ namespace TDD
         public PageCatalogBreedBuilder SelectMaxSentences(IWebDriver browser, ref string findBreedName)
         {
             pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(linkBreed).ToList();
-            List<IWebElement> count = browser.FindElements(elementCount).ToList();
+            List<IWebElement> breed = browser.FindElements(pageCatalogBreed.LinkBreedBy).ToList();
+            List<IWebElement> count = browser.FindElements(pageCatalogBreed.TxtCountsBy).ToList();
 
             Comparator find = new Comparator();
             int index = find.FindMaxFromCatalog(breed, count);

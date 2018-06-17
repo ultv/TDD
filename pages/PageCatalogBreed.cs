@@ -28,6 +28,7 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "js-catalog-counts__link")]
         public IWebElement LinkBreed { get; set; }
+        public By LinkBreedBy { get { return By.ClassName("js-catalog-counts__link"); } }
 
 
         /// <summary>
@@ -35,6 +36,7 @@ namespace TDD.pages
         /// </summary>
         [FindsBy(How = How.ClassName, Using = "catalog-counts__number")]
         public IWebElement TxtCounts { get; set; }
+        public By TxtCountsBy { get { return By.ClassName("catalog-counts__number"); } }
 
     }
 }
