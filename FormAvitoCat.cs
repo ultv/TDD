@@ -103,13 +103,14 @@ namespace TDD
                                 Create(browser).
                                 GetInfo(this, browser);
 
-        
-            System.Threading.Thread.Sleep(2000);
-            FindScrollBar();
-            System.Threading.Thread.Sleep(2000);
-            MakeScroll();            
-            System.Threading.Thread.Sleep(5000);
-
+                              
+            if(FindScrollBar())
+            {
+                System.Threading.Thread.Sleep(2000);
+                MakeDoubleScroll();
+                System.Threading.Thread.Sleep(5000);
+            }
+            
             this.Activate();
             browser.Manage().Window.Minimize();
         }
@@ -144,42 +145,61 @@ namespace TDD
                 browser.Quit();
             }            
         }
+       
 
         /// <summary>
-        /// Скролл дважды вниз, если есть сообщение о наличии скроллбара.
+        /// Скролл дважды вниз.
         /// </summary>
         /// <param name="offset"></param>
-        public void MakeScroll()
+        public void MakeDoubleScroll()
         {
+                               
+            javaEx = (IJavaScriptExecutor)browser;           
+            javaEx.ExecuteScript("alert('Будет выпполнен скролл вниз');");
+            System.Threading.Thread.Sleep(2000);
+
             try
             {
                 IAlert alert = browser.SwitchTo().Alert();
-                if(alert.Text == "Скроллбар присутствует")
-                {
-                    System.Threading.Thread.Sleep(2000);
-                    alert.Accept();
-                    System.Threading.Thread.Sleep(2000);
-                    javaEx = (IJavaScriptExecutor)browser;
-                    javaEx.ExecuteScript($"window.scrollTo(0, 250);");
-                    System.Threading.Thread.Sleep(2000);
-                    javaEx.ExecuteScript($"window.scrollTo(0, 600);");
-                }
-                
+                alert.Accept();
             }
             catch
             {
 
-            }            
+            }
+            
+            System.Threading.Thread.Sleep(1000);
+            javaEx.ExecuteScript($"window.scrollTo(0, 250);");
+            System.Threading.Thread.Sleep(2000);
+
+            javaEx.ExecuteScript("alert('Повторное выпполнение скролла вниз');");
+            System.Threading.Thread.Sleep(2000);
+
+            try
+            {
+                IAlert alert = browser.SwitchTo().Alert();
+                alert.Accept();
+            }
+            catch
+            {
+
+            }
+
+            System.Threading.Thread.Sleep(1000);
+            javaEx.ExecuteScript($"window.scrollTo(0, 600);");
+                        
         }
 
         /// <summary>
-        /// Вывод сообщения, если скроллбар присутствует.
+        /// Проверка присутствия скроллбара на странице.
         /// </summary>
-        public void FindScrollBar()
-        {            
-            javaEx = (IJavaScriptExecutor)browser;                       
-            javaEx.ExecuteScript("if (document.body.offsetHeight > window.innerHeight) alert('Скроллбар присутствует');");
+        /// <returns>Возвращает истину, если скроллбар присутствует.</returns>
+        public bool FindScrollBar()
+        {
+            javaEx = (IJavaScriptExecutor)browser;
+            return (bool)javaEx.ExecuteScript("if (document.body.offsetHeight > window.innerHeight) {return true;};");            
         }
+
 
         /// <summary>
         /// Присвоение имени.
