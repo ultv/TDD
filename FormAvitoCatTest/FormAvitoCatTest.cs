@@ -59,7 +59,7 @@ namespace FormAvitoCatTest
             string findBreedName = "";            
             pageCatalogBreed = PageCatalogBreed.
                                                 Create(browser).
-                                                SelectMaxSentences(browser, ref findBreedName);
+                                                SelectMaxSentences(ref findBreedName);
             
             string expected = $"Кошки и котята породы {findBreedName} - купить из питомников и частные объявления о продаже животных в Ульяновске на Avito";
 
@@ -78,7 +78,7 @@ namespace FormAvitoCatTest
             string name = "";
             pageBreed = PageBreed.
                                 Create(browser).
-                                GoToFirstLink(browser, ref pageInfo, ref name);
+                                GoToFirstLink(ref pageInfo, ref name);
                                     
             string expected = $"{name} - купить, продать или отдать в Ульяновской области на Avito";
 
@@ -97,7 +97,7 @@ namespace FormAvitoCatTest
             //Arrange            
             pageInfo = PageInfo.
                                 Create(browser).
-                                ShowPhone(browser);
+                                ShowPhone();
                             
             string expected = "Скажите продавцу, что нашли это объявление на Avito";
 

@@ -15,6 +15,7 @@ namespace TDD.pages
     /// </summary>
     public class PageInfo
     {
+        public readonly IWebDriver browser; 
 
         public static PageInfoBuilder Create(IWebDriver browser)
         {
@@ -23,6 +24,7 @@ namespace TDD.pages
 
         public PageInfo(IWebDriver browser)
         {
+            this.browser = browser;
             PageFactory.InitElements(browser, this);
         }
         

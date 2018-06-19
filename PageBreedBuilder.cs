@@ -29,10 +29,10 @@ namespace TDD
             return this;
         }
 
-        public PageBreed GoToFirstLink(IWebDriver browser, ref PageInfo pageInfo,  ref string name)
+        public PageBreed GoToFirstLink(ref PageInfo pageInfo,  ref string name)
         {
             pageBreed.LinkFirst.Click();
-            pageInfo = new PageInfo(browser);
+            pageInfo = new PageInfo(pageBreed.browser);
             name = pageInfo.TxtName.Text;
 
             return this;

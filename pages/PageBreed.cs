@@ -13,6 +13,7 @@ namespace TDD.pages
     /// </summary>
     public class PageBreed
     {
+        public readonly IWebDriver browser;
         
         public static PageBreedBuilder Create(IWebDriver browser)
         {
@@ -21,6 +22,7 @@ namespace TDD.pages
 
         public PageBreed(IWebDriver browser)
         {
+            this.browser = browser;
             PageFactory.InitElements(browser, this);
         }
 

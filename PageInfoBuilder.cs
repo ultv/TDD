@@ -21,10 +21,10 @@ namespace TDD
             pageInfo = page;            
         }
 
-        public PageInfo ShowPhone(IWebDriver browser)
+        public PageInfo ShowPhone()
         {
             pageInfo.BtnShowPhone.Click();
-            WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
+            WebDriverWait browserWait = new WebDriverWait(pageInfo.browser, TimeSpan.FromSeconds(15));
             IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(pageInfo.ImgPhoneBy));
 
             return this;
@@ -41,7 +41,7 @@ namespace TDD
         /// <param name="form"></param>
         /// <param name="browser"></param>
         /// <returns></returns>
-        public PageInfo GetInfo(FormAvitoCat form, IWebDriver browser)
+        public PageInfo GetInfo(FormAvitoCat form)
         {
 
             form.SetName(pageInfo.TxtName.Text);            
@@ -72,10 +72,10 @@ namespace TDD
             form.SetImageLocation(pageInfo.ImgMain.FindElement(pageInfo.imgTagBy).GetAttribute("src"));
             pageInfo.BtnShowPhone.Click();
 
-            WebDriverWait browserWait = new WebDriverWait(browser, TimeSpan.FromSeconds(15));
+            WebDriverWait browserWait = new WebDriverWait(pageInfo.browser, TimeSpan.FromSeconds(15));
             IWebElement note = browserWait.Until(ExpectedConditions.ElementIsVisible(pageInfo.ImgPhoneBy));
 
-            Bitmap screenshot = GetScreenshot(browser, Directory.GetCurrentDirectory() + "/screenshot1.jpg");
+            Bitmap screenshot = GetScreenshot(Directory.GetCurrentDirectory() + "/screenshot1.jpg");
             form.SetImagePhone(CutPhoneFromScreenshot(screenshot));
 
             pageInfo.LinkPhoneClose.Click();
@@ -91,9 +91,9 @@ namespace TDD
         /// <param name="br">Браузер</param>
         /// <param name="location">Путь для сохранения изображения</param>
         /// <returns>Возвращает сохраненное изображение</returns>
-        public Bitmap GetScreenshot(IWebDriver br, string location)
+        public Bitmap GetScreenshot(string location)
         {
-            ITakesScreenshot screenshotDriver = br as ITakesScreenshot;
+            ITakesScreenshot screenshotDriver = pageInfo.browser as ITakesScreenshot;
             Screenshot screnshot = screenshotDriver.GetScreenshot();
             screnshot.SaveAsFile(location);
             Bitmap bmp = new Bitmap(location);

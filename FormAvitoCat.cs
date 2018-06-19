@@ -91,7 +91,7 @@ namespace TDD
 
             pageCatalogBreed = PageCatalogBreed.
                                                 Create(browser).
-                                                SelectMaxSentences(browser);
+                                                SelectMaxSentences();
 
             pageBreed = PageBreed.
                                  Create(browser).
@@ -101,7 +101,7 @@ namespace TDD
 
             pageInfo = PageInfo.
                                 Create(browser).
-                                GetInfo(this, browser);
+                                GetInfo(this);
 
                               
             if(FindScrollBar())

@@ -13,6 +13,8 @@ namespace TDD.pages
     /// </summary>
     public class PageHome
     {
+        public readonly IWebDriver browser;
+
         public static PageHomeBuilder Create(IWebDriver browser)
         {
             return new PageHomeBuilder(new PageHome(browser));
@@ -20,6 +22,7 @@ namespace TDD.pages
 
         public PageHome(IWebDriver browser)
         {
+            this.browser = browser;
             PageFactory.InitElements(browser, this);
         }
         

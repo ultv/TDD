@@ -24,11 +24,11 @@ namespace TDD
         /// </summary>
         /// <param name="browser"></param>
         /// <returns></returns>
-        public PageCatalogBreedBuilder SelectMaxSentences(IWebDriver browser)
+        public PageCatalogBreedBuilder SelectMaxSentences()
         {
-            pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(pageCatalogBreed.LinkBreedBy).ToList();
-            List<IWebElement> count = browser.FindElements(pageCatalogBreed.TxtCountsBy).ToList();
+            pageCatalogBreed = new PageCatalogBreed(pageCatalogBreed.browser);
+            List<IWebElement> breed = pageCatalogBreed.browser.FindElements(pageCatalogBreed.LinkBreedBy).ToList();
+            List<IWebElement> count = pageCatalogBreed.browser.FindElements(pageCatalogBreed.TxtCountsBy).ToList();
 
             Comparator find = new Comparator();
             breed[find.FindMaxFromCatalog(breed, count)].Click();
@@ -42,11 +42,11 @@ namespace TDD
         /// <param name="browser"></param>
         /// <param name="findBreedName">Принимает ссылку на строку с названием породы</param>
         /// <returns></returns>
-        public PageCatalogBreedBuilder SelectMaxSentences(IWebDriver browser, ref string findBreedName)
+        public PageCatalogBreedBuilder SelectMaxSentences(ref string findBreedName)
         {
-            pageCatalogBreed = new PageCatalogBreed(browser);
-            List<IWebElement> breed = browser.FindElements(pageCatalogBreed.LinkBreedBy).ToList();
-            List<IWebElement> count = browser.FindElements(pageCatalogBreed.TxtCountsBy).ToList();
+            pageCatalogBreed = new PageCatalogBreed(pageCatalogBreed.browser);
+            List<IWebElement> breed = pageCatalogBreed.browser.FindElements(pageCatalogBreed.LinkBreedBy).ToList();
+            List<IWebElement> count = pageCatalogBreed.browser.FindElements(pageCatalogBreed.TxtCountsBy).ToList();
 
             Comparator find = new Comparator();
             int index = find.FindMaxFromCatalog(breed, count);
