@@ -97,7 +97,7 @@ namespace TDD
             Screenshot screnshot = screenshotDriver.GetScreenshot();
             screnshot.SaveAsFile(location);
             Bitmap bmp = new Bitmap(location);
-
+            
             return bmp;
         }
 

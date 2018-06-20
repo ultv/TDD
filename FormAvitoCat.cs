@@ -18,6 +18,7 @@ namespace TDD
     public partial class FormAvitoCat : Form
     {
         static IWebDriver browser;
+        readonly string url = "http://avito.ru";
         IJavaScriptExecutor javaEx;
         PageHome pageHome;
         PageInfo pageInfo;        
@@ -83,7 +84,7 @@ namespace TDD
         private void buttonFindCat_Click(object sender, EventArgs e)
         {
             InitForm();
-            OpenBrowser("http://avito.ru");
+            OpenBrowser(url);
 
             pageHome = PageHome.
                                 Create(browser).
@@ -163,11 +164,11 @@ namespace TDD
                 IAlert alert = browser.SwitchTo().Alert();
                 alert.Accept();
             }
-            catch
+            catch (NoAlertPresentException)
             {
 
             }
-            
+
             System.Threading.Thread.Sleep(1000);
             javaEx.ExecuteScript($"window.scrollTo(0, 250);");
             System.Threading.Thread.Sleep(2000);
@@ -180,7 +181,7 @@ namespace TDD
                 IAlert alert = browser.SwitchTo().Alert();
                 alert.Accept();
             }
-            catch
+            catch (NoAlertPresentException)
             {
 
             }
@@ -197,7 +198,10 @@ namespace TDD
         public bool FindScrollBar()
         {
             javaEx = (IJavaScriptExecutor)browser;
-            return (bool)javaEx.ExecuteScript("if (document.body.offsetHeight > window.innerHeight) {return true;};");            
+
+            string script = "return document.body.offsetHeight > window.innerHeight? true : false;";
+
+            return (bool)javaEx.ExecuteScript(script);
         }
 
 

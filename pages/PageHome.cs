@@ -52,6 +52,13 @@ namespace TDD.pages
         [FindsBy(How = How.ClassName, Using = "button-origin")]
         [FindsBy(How = How.CssSelector, Using = ".search-form__submit button")]
         public IWebElement BtnSearch { get; set; }
+
+
+        /// <summary>
+        /// Ссылка "Карьера".
+        /// </summary>
+        [FindsBy(How = How.LinkText, Using = "Карьера")]
+        public IWebElement LinkJob { get; set; }
         
     }
 }

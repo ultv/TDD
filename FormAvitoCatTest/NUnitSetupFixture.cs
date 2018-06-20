@@ -14,6 +14,7 @@ namespace FormAvitoCatTest
     public class NUnitSetupFixture
     {
         static public IWebDriver browser;
+        public readonly string url = "http://avito.ru";
         public PageHome pageHome;
         public PageCatalogBreed pageCatalogBreed;
         public PageBreed pageBreed;
@@ -22,9 +23,7 @@ namespace FormAvitoCatTest
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
-            // browser = new OpenQA.Selenium.Chrome.ChromeDriver();
-            // browser.Manage().Window.Maximize();
-            // browser.Navigate().GoToUrl("http://avito.ru/");
+            
         }
 
         [OneTimeTearDown]

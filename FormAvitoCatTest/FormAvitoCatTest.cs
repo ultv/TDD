@@ -6,8 +6,9 @@ using NUnit.Framework;
 using OpenQA.Selenium.Support.PageObjects;
 using TDD;
 using TDD.pages;
-
+using System.Drawing;
 using System.Linq;
+using System.IO;
 
 
 namespace FormAvitoCatTest
@@ -23,7 +24,7 @@ namespace FormAvitoCatTest
             // Arrange
             browser = new OpenQA.Selenium.Chrome.ChromeDriver();
             browser.Manage().Window.Maximize();
-            browser.Navigate().GoToUrl("http://avito.ru/");            
+            browser.Navigate().GoToUrl(url);            
             string expected = "Доска объявлений от частных лиц и компаний на Avito";
 
             // Act
@@ -108,5 +109,6 @@ namespace FormAvitoCatTest
             Assert.AreEqual(expected, actual);
         }
 
+        
     }
 }
