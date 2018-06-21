@@ -124,8 +124,7 @@ namespace TDD
         {
             if(browser == null)
             {
-                browser = new OpenQA.Selenium.Chrome.ChromeDriver();
-                //browser = new OpenQA.Selenium.Firefox.FirefoxDriver();
+                browser = new OpenQA.Selenium.Chrome.ChromeDriver();           
                 browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
             }
             
@@ -170,7 +169,7 @@ namespace TDD
             }
 
             System.Threading.Thread.Sleep(1000);
-            javaEx.ExecuteScript($"window.scrollTo(0, 250);");
+            javaEx.ExecuteScript($"window.scrollTo(0, window.innerHeight);");
             System.Threading.Thread.Sleep(2000);
 
             javaEx.ExecuteScript("alert('Повторное выпполнение скролла вниз');");
@@ -187,7 +186,7 @@ namespace TDD
             }
 
             System.Threading.Thread.Sleep(1000);
-            javaEx.ExecuteScript($"window.scrollTo(0, 600);");
+            javaEx.ExecuteScript($"window.scrollTo(0, document.body.scrollHeight);");
                         
         }
 
