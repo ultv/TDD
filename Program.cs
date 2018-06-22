@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace TDD
 {
     static class Program
-    {
+    {        
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
@@ -16,7 +16,7 @@ namespace TDD
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new FormAvitoCat());
         }
     }
 }
