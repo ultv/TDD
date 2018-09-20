@@ -27,7 +27,8 @@ namespace TDD
 
         public FormAvitoCat()
         {            
-            InitializeComponent();            
+            InitializeComponent();
+            MessageBox.Show("Hello Jenkins");
         }
 
         private void FormAvitoCat_Load(object sender, EventArgs e)
